@@ -36,17 +36,10 @@ my $params =
   password => $opts{passwd},
   productId => 82
  };
-
 my $s = new BetFair::Session( $params );
 
-print Dumper $s;
-
-print "your betfair session key is : " . $s->{key} . $/;
-
-# 
-
+# build SOAP message
 my $t = new BetFair::Template;
-
 my $params2 = {
                 session => $s->{key},
 		marketId => $opts{market} 
@@ -54,18 +47,13 @@ my $params2 = {
 
 my $ref = 'getMarketPrices';
 $ref .= 'Compressed' if $opts{compress}; 
-
 my $message = $t->populate( $ref, $params2 );
 
-print $message;
+# make request for market data
+my $r = new BetFair::Request;
+$r->message( $message, $t );
+$r->request();
 
-#
-
- # make the login request
- my $r = new BetFair::Request;
- $r->message( $message, $t );
- $r->request();
-
- print "*** $r->{response} *** \n";
+print "*** $r->{response} *** \n";
 
 print 1;

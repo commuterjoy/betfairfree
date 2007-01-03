@@ -73,6 +73,8 @@ sub request
   my $response = $userAgent->request($request);
   $self->{response} = $response->{'_content'};
   $self->{throttle}->touch( $self->{type} );
+
+  TRACE($response->{'_content'}, 2);
  
   # check response is parsable
   my $xs = new XML::Simple();

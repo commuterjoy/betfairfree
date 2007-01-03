@@ -28,33 +28,22 @@ my $params =
   productId => 82
  };
 
-my $s = new BetFair::Session( $params );
+my $s = new BetFair::Session( $params ); # assign session key to $s->{key}
 
-print Dumper $s;
-
-print "your betfair session key is : " . $s->{key} . $/;
-
-# 
-
+# define the message to send, with session key
 my $t = new BetFair::Template;
-
 my $params2 = {
                 session => $s->{key}
              };
-
 my $message = $t->populate( 'getAccountFunds', $params2 );
 
-print $message;
+# make request for your account information
+my $r = new BetFair::Request;
+$r->message( $message, 'getAccountFunds' );
+$r->request();
 
-#
+# render response using the Parser & Xpath
+my $p = new BetFair::Parser( { 'message' => $r->{response} } ); 
+my $balance = $p->get_nodeSet( { 'xpath' => '/soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/availBalance' } );
 
- # make the login request
- my $r = new BetFair::Request;
- $r->message( $message, 'getAccountFunds' );
- $r->request();
-# $r->request();
-# $r->request();
-
-print "*** $r->{response} *** \n";
- 
-print 1;
+print $balance;
