@@ -1,0 +1,24 @@
+generic 
+
+y getActiveEventTypes	Unlimited	
+y getEvents	Unlimited	
+y getMarket	5	
+y getMarketPrices	10	
+y getMarketPricesCompressed	60	
+y login	24	
+
+personal 
+
+y getAccountFunds	1	
+  getAccountStatement	1	
+y keepAlive	Unlimited
+
+  getBetHistory	1	
+  getCurrentBets	60	
+  getMarketProfitAndLoss	60	
+  getMarketTradedVolume	60	
+  getSubscriptionInfo	1	
+	
+  placeBets	60	
+  updateBets	60	
+  cancelBets	60

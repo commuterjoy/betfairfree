@@ -1,0 +1,9 @@
+debug : 1
+xpath_conf : conf/xpath.yml
+event_id_cache : conf/eventId-cache.yml
+soap_uri : https://api.betfair.com/betex-api-public-ws/v2/BFService
+soap_header : https://api.betfair.com/betex-api-public-ws/BFServiceV2
+soap_response_templates : tmpl/soap-responses/
+cycle : 60
+error : 
+ THROTTLE_EXCEEDED : "slow down"

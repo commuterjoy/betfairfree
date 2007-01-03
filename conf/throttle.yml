@@ -1,0 +1,16 @@
+login : 
+ limit : 24
+ call : 0
+ count : 0
+getAccountFunds
+ limit : 1
+ call : 0
+ count : 0
+getEvents
+ limit : 1
+ call : 0
+ count : 0
+getMarket
+ limit : 60
+ call : 0
+ count : 0
