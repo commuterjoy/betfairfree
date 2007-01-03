@@ -1,4 +1,4 @@
-debug : 1
+debug : 0
 xpath_conf : conf/xpath.yml
 event_id_cache : conf/eventId-cache.yml
 soap_uri : https://api.betfair.com/betex-api-public-ws/v2/BFService
