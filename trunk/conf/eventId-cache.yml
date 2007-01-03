@@ -1,0 +1,8 @@
+# cache of eventId's. Allows quick access to particular events 
+# in the hierarchy without have to navigate/recurse around the place.
+# these are not officially constant values, but they seem fairly static.
+# where in doubt, cross check directly with the Betfair server.
+
+American Football : 6423
+Soccer : 1
+Soccer Fixtures : 14 

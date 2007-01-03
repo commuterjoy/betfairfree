@@ -1,0 +1,65 @@
+# xpath yaml file, grouped by SOAP response type
+
+# some shared statements
+generalResponse:
+ body : /soap:Envelope/soap:Body 
+ header : /soap:Envelope/soap:Body/*/n:Result/header
+ sessionToken : /soap:Envelope/soap:Body/*/n:Result/header/sessionToken
+ errorCode : /soap:Envelope/soap:Body/*/n:Result/errorCode
+ minorErrorCode : /soap:Envelope/soap:Body/*/n:Result/header/minorErrorCode
+ timestamp : /soap:Envelope/soap:Body/*/n:Result/header/timstamp
+ 
+getAccountFunds:
+ availBalance : /soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/availBalance
+ balance : /soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/balance
+ commissionRetain : /soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/commissionRetain 
+ creditLimit : /soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/creditLimit
+ currentBetfairPoints : /soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/currentBetfairPoints
+ expoLimit : /soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/expoLimit
+ exposure : /soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/exposure
+ holidaysAvailable : /soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/holidaysAvailable
+ nextDiscount : /soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/nextDiscount
+ withdrawBalance : /soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/withdrawBalance
+ 
+getActiveEventTypes:
+ eventTypeItems : //n2:EventType
+
+getEvents:
+ BFEvent : //n2:BFEvent
+ marketSummary : //n2:MarketSummary
+ marketItems : /soap:Envelope/soap:Body/n:getEventsResponse/n:Result/marketItems/n2:MarketSummary
+ eventItems : /soap:Envelope/soap:Body/n:getEventsResponse/n:Result/eventItems/n2:BFEvent
+
+getMarket:
+ countryISO3 : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/countryISO3
+ discountAllowed : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/discountAllowed
+ eventTypeId : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/eventTypeId
+ lastRefresh : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/lastRefresh
+ marketBaseRate : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/marketBaseRate
+ marketDescription  : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/marketDescription 
+ marketDisplayTime : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/marketDisplayTime
+ marketId : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/marketId
+ marketStatus : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/marketStatus
+ marketSuspendTime : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/marketSuspendTime 
+ marketTime : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/marketTime
+ marketType : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/marketType
+ marketTypeVariant : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/marketTypeVariant
+ menuPath : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/menuPath
+ name : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/name
+ numberOfWinners : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/numberOfWinners
+ parentEventId : /soap:Envelope/soap:Body/n:getMarketResponse/n:Result/market/parentEventId
+
+getMarketRunners:
+ runners : //n2:Runner
+
+getMarketPrices:
+ hello : world
+
+getBestPricesToBack:
+ runnerPrices : //n2:RunnerPrices
+ bestPricesToBack : //bestPricesToBack/n2:Price/price
+ bestPricesToBackAmount : //bestPricesToBack/n2:Price/amountAvailable
+
+getAccountStatement :
+ items : //n2:AccountStatementItem
+

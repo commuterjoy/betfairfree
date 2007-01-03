@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <getMarketPrices xmlns="http://www.betfair.com/publicapi/BFServiceV2/">
+      <request>
+	<header xmlns="">
+          <clientStamp>0</clientStamp>
+          <sessionToken><TMPL_VAR session></sessionToken>
+	</header>
+	<marketId><TMPL_VAR marketId></marketId>
+      </request>
+    </getMarketPrices>
+  </soap:Body>
+</soap:Envelope>
+

@@ -1,0 +1,13 @@
+
+BetFair::Parser
+ - needs to parse and render SOAP responses as usable perl data structures 
+
+MakeFile
+
+SVN
+
+MVC
+ - need to write a CGI view
+
+Products
+ - embed live prices in your webpage/blog
