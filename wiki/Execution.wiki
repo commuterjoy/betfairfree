@@ -11,7 +11,7 @@
  perl -I./lib t/getAccountFunds.pl -u username -p password
 }}}
 
-*log a market's best prices*
+*log a market's best prices to a file*
 {{{
  perl -I./lib t/log_best_prices.pl -u username -p password -interval 10 -m marketid
 }}}
