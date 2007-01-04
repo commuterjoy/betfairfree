@@ -5,3 +5,5 @@
  * LWP - For the HTTP comm's
  * Crypt::SSLeay - Betfair's API operates over HTTPS 
  * HTML::Template - To construct some of the SOAP requests
+ * XML::Xpath - Interogating the SOAP responses
+ * XML::Simple - Quick checking of SOAP responses
