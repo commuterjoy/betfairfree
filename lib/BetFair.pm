@@ -235,7 +235,7 @@ sub getBestPricesToBack
          };
  my $message = $t->populate( 'getMarketPrices' , $params );
 
- print $message;
+ TRACE("* $PACKAGE->getBestPricesToBack : $message", 1);
 
  my $r = new BetFair::Request;
  $r->message( $message, 'getMarketPrices' );
