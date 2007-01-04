@@ -1,0 +1,21 @@
+#summary Notes on how to work with the code.
+
+== Dependencies ==
+ * YAML
+ * Crypt::SSLeay
+ * HTML::Template
+
+== How To ==
+
+'''get the code'''
+
+ svn checkout http://betfairfree.googlecode.com/svn/trunk/ betfairfree
+ cd betfairfree
+
+'''create a session'''
+
+ perl -I./lib _t/t_session.pl -u [username] -p [password]
+
+'''check your balance'''
+
+ perl -I./lib _t/t_getAccountFunds.pl -u [username] -p [password]
