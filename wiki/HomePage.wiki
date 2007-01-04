@@ -14,9 +14,9 @@
 }}}
 === create a session === 
 {{{
- perl -I./lib _t/t_session.pl -u _username_ -p _password_
+ perl -I./lib ./_t/t_session.pl -u _username_ -p _password_
 }}}
 === check your balance ===
 {{{
- perl -I./lib _t/t_getAccountFunds.pl -u _username_ -p _password_
+ perl -I./lib ./_t/t_getAccountFunds.pl -u _username_ -p _password_
 }}}
