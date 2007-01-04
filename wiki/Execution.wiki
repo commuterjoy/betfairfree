@@ -1,0 +1,22 @@
+#summary Notes on how to work with the code.
+
+*get the code*
+{{{
+ svn checkout http://betfairfree.googlecode.com/svn/trunk/ betfairfree
+ cd betfairfree
+}}}
+
+*check your balance*
+{{{
+ perl -I./lib t/getAccountFunds.pl -u username -p password
+}}}
+
+*log a market's best prices*
+{{{
+ perl -I./lib t/log_best_prices.pl -u username -p password -interval 10 -m marketid
+}}}
+
+*create a session*
+{{{
+ perl -I./lib t/session.pl -u username -p password
+}}}
