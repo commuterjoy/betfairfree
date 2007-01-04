@@ -1,4 +1,6 @@
-== Perl ==
+#summary Things you need to run the code
+
+*Perl*
  * YAML - Config files held in this form 
  * Crypt::SSLeay - Betfair's API operates over HTTPS 
  * HTML::Template - To construct some of the SOAP requests
