@@ -2,5 +2,6 @@
 
 *Perl*
  * YAML - Config files held in this form 
+ * LWP - For the HTTP comm's
  * Crypt::SSLeay - Betfair's API operates over HTTPS 
  * HTML::Template - To construct some of the SOAP requests
