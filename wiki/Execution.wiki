@@ -6,17 +6,20 @@
  cd betfairfree
 }}}
 
+*create a session*
+
+quite a good first port of call, it will (naturally) check your library dependencies and try to get a API session using your betfair.com login details.
+
+{{{
+ perl -I./lib _t/session.pl -u username -p password
+}}}
+
 *check your balance*
 {{{
- perl -I./lib t/getAccountFunds.pl -u username -p password
+ perl -I./lib _t/getAccountFunds.pl -u username -p password
 }}}
 
 *log a market's best prices*
 {{{
- perl -I./lib t/log_best_prices.pl -u username -p password -interval 10 -m marketid
-}}}
-
-*create a session*
-{{{
- perl -I./lib t/session.pl -u username -p password
+ perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m marketid
 }}}
