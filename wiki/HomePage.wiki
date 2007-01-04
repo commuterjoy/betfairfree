@@ -1,23 +1,33 @@
 #summary Notes on how to work with the code.
 
 == Dependencies ==
- * YAML
- * Crypt::SSLeay
- * HTML::Template
+ * YAML - Config files held in this form 
+ * Crypt::SSLeay - Betfair's API operates over HTTPS
+ * HTML::Template - To construct some of the SOAP requests
 
-== get the code == 
+*get the code*
 {{{
  svn checkout http://betfairfree.googlecode.com/svn/trunk/ betfairfree
  cd betfairfree
 }}}
-== create a session == 
-{{{
- perl -I./lib t/session.pl -u username -p password
-}}}
-== check your balance ==
+
+*check your balance*
 {{{
  perl -I./lib t/getAccountFunds.pl -u username -p password
 }}}
+
+*log a market's best prices*
+{{{
+ perl -I./lib t/log_best_prices.pl -u username -p password -interval 10 -m marketid
+}}}
+
+*create a session*
+{{{
+ perl -I./lib t/session.pl -u username -p password
+}}}
+
+
+
 
 
 
