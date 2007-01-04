@@ -7,3 +7,11 @@
  * HTML::Template - To construct some of the SOAP requests
  * XML::Xpath - Interogating the SOAP responses
  * XML::Simple - Quick checking of SOAP responses
+
+*OS*
+
+The Perl runs (for me) on the following :- 
+
+ * Mac OSX 1.4
+ * WinXP 
+ * Linux (RedHat)
