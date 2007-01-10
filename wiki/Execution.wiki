@@ -14,12 +14,12 @@ quite a good first port of call, it will (naturally) check your library dependen
  perl -I./lib _t/session.pl -u username -p password
 }}}
 
-*check your balance*
+*check your avaiable balance*
 {{{
  perl -I./lib _t/getAccountFunds.pl -u username -p password
 }}}
 
-*log a market's best prices*
+*log a market's best prices, every 10 seconds*
 {{{
  perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m marketid
 }}}
