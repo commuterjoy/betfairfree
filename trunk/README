@@ -1,3 +1,49 @@
+
+Getting started 
+===============
+
+Get hold of the Betfair API document, it's full of useful info
+
+http://bdp.betfair.com/exchdevelopers.php
+
+Intro to the betfairfree files
+
+/lib contains the Betfair modules and xpath modules.
+
+/conf contains some yaml files in various stages of development, including the 
+default.yml where debug can be turned on and off and the connect URIs are set
+
+/_t contains various perl scripts taht can be used for workng out what does what, 
+
+create a session
+
+quite a good first port of call, it will (naturally) check your library 
+dependencies and try to get a API session using your betfair.com login details.
+
+ perl -I./lib _t/session.pl -u username -p password
+
+check your available balance
+
+ perl -I./lib _t/getAccountFunds.pl -u username -p password
+
+log a market's best prices, every 10 seconds
+
+ perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m marketid
+
+I'd start with getMarket.pl which returns market info when given login details 
+and a market id. you can then search that for  selection and combine that with 
+getMarketPrices to track the prices for an individual selection.
+
+/docs contains the example responses
+
+/tmpl contains the soap templates for sending. These are processed by 
+BetFair::Template using a HTML::Template to fill them in.
+
+The free betfair API is throttled by Betfair, there is a throttling engine 
+within this API but it does not keep state between script runs.
+
+# notes for throttle levels
+
 generic 
 
 y getActiveEventTypes	Unlimited	
