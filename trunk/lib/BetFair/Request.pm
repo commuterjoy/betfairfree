@@ -1,4 +1,4 @@
-
+#!/usr/bin/perl -w
 
 =head1 NAME
 
@@ -32,8 +32,10 @@ use XML::Simple;
 my $PACKAGE = 'BetFair::Request';
 my $VERSION = '';
 
-my $soap_uri = 'https://api.betfair.com/betex-api-public-ws/v2/BFService';
-my $soap_header = '"https://api.betfair.com/betex-api-public-ws/BFServiceV2"';
+my $conf = new BetFair::Config;
+
+my $soap_uri = $conf->{soap_uri};
+my $soap_header = '"' . $conf->{soap_header} .'"';
 
 sub new
 {
