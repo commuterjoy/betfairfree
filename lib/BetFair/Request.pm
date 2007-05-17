@@ -34,8 +34,9 @@ my $VERSION = '';
 
 my $conf = new BetFair::Config;
 
-my $soap_uri = $conf->{soap_uri};
-my $soap_header = '"' . $conf->{soap_header} .'"';
+# All calls whose type is below have to go to the global api, everything else 
+# should go to the exchange server. See Betfair API docs.
+my @globalAPI = qw(addPaymentCard convertCurrency createAccount deletePaymentCard depositFromPaymentCard forgotPassword getActiveEventTypes getAllCurrencies getAllEventTypes getEvents getPaymentCard getSubscriptionInfo keepAlive login logout modifyPassword modifyProfile retrieveLIMBMessage submitLIMBMessage transferFunds updatePaymentCard viewProfile withdrawToPaymentCard );
 
 sub new
 {
@@ -56,7 +57,10 @@ sub request
 
  my ($self) = shift;
 
- #print "BetFair::Request::request() " . $self->{message} if $DEBUG;
+ my $soap_uri = $conf->{soap_exchange_uri};
+ $soap_uri = $conf->{soap_global_uri} if (grep(/$self->{type}/, @globalAPI));
+
+ my $soap_header = '"' . $soap_uri .'"';
 
  TRACE("$PACKAGE : LWP calling $soap_uri", 1);
 
@@ -66,9 +70,7 @@ sub request
  $request->header( SOAPAction => $soap_header );
  $request->content($self->{message});
  $request->content_type("text/xml; charset=utf-8");
-
- #print "ok to call : " .  $self->{throttle}->ok_to_call( $self->{type} ) . "\n" if $DEBUG;
- 
+  
  if ( $self->{throttle}->ok_to_call( $self->{type} ) )
  {
   TRACE("$PACKAGE : Throttle reports ok to call", 1);
@@ -77,14 +79,14 @@ sub request
   $self->{throttle}->touch( $self->{type} );
 
   TRACE($response->{'_content'}, 2);
- 
+
   # check response is parsable
   my $xs = new XML::Simple();
   my $xss = eval{ $xs->XMLin( $self->{response} ) };
   if ( $@ )
   {
    TRACE("$PACKAGE : Response unparsable, ie. not XML. Is the BetFair service ok? http://service.betfair.info/");
-   die( $! );
+   die( $self->{message} . "\n\n" . $self->{response} );
   }	
  }
  else
