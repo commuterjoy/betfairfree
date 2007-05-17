@@ -83,7 +83,10 @@ sub _get_session
  
  my $error = $x->get_responseError();
 
- return 0 if $error ne 'OK';
+ if ($error ne 'OK') { 
+   TRACE("$PACKAGE : Couldn't find session" . $r->{response}, 1);
+   return 0;
+ }
 
  return $session;
 

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <soap:Body>
-    <login xmlns="http://www.betfair.com/publicapi/BFServiceV2/">
+<soap:Body>
+    <login xmlns="http://www.betfair.com/publicapi/BFGlobalService/">
       <request>
-        <password xmlns=""><TMPL_VAR password></password>
-        <username xmlns=""><TMPL_VAR username></username>
-        <productId xmlns=""><TMPL_VAR productId></productId>
+        <password><TMPL_VAR password></password>
+        <username><TMPL_VAR username></username>
+        <productId><TMPL_VAR productId></productId>
+	<vendorSoftwareId>0</vendorSoftwareId>
+	<locationId>0</locationId>
       </request>
     </login>
   </soap:Body>
