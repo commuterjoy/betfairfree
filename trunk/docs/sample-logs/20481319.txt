@@ -1,0 +1,219 @@
+# Horse Racing -> 18:00 Belmont (Sun 8th July 2007)
+# shows the in-play fluctuations of all runners
+market:
+  - name: 1. City in the Clouds
+    selection: 2414548
+  - name: 2. Rizzis Twist
+    selection: 2266721
+  - name: 3. Go Jersey Ginny
+    selection: 1510918
+  - name: 4. Smokin Sarah
+    selection: 2474239
+  - name: 5. Kitty Nip
+    selection: 2454056
+  - name: 6. Gregs Lassy
+    selection: 2474240
+  - name: 7. Karakorum Knockout
+    selection: 2474241
+  - name: 8. One Tough Belle
+    selection: 2474242
+Sun Jul  8 18:00:21 2007:
+  - amount: 6.48
+    price: 7.4
+    selection: 2414548
+  - amount: 17.0
+    price: 6.8
+    selection: 2266721
+  - amount: 2.0
+    price: 50.0
+    selection: 1510918
+  - amount: 1210.45
+    price: 2.7
+    selection: 2474239
+  - amount: 3.1
+    price: 55.0
+    selection: 2454056
+  - amount: 4.49
+    price: 4.1
+    selection: 2474240
+  - amount: 12.0
+    price: 60.0
+    selection: 2474241
+  - amount: 10.95
+    price: 8.6
+    selection: 2474242
+Sun Jul  8 18:00:37 2007:
+  - amount: 8.0
+    price: 7.2
+    selection: 2414548
+  - amount: 14.89
+    price: 6.8
+    selection: 2266721
+  - amount: 2.0
+    price: 50.0
+    selection: 1510918
+  - amount: 25.0
+    price: 2.8
+    selection: 2474239
+  - amount: 5.1
+    price: 50.0
+    selection: 2454056
+  - amount: 6.3
+    price: 4.0
+    selection: 2474240
+  - amount: 5.9
+    price: 65.0
+    selection: 2474241
+  - amount: 15.03
+    price: 8.6
+    selection: 2474242
+Sun Jul  8 18:00:52 2007:
+  - amount: 5.37
+    price: 7.2
+    selection: 2414548
+  - amount: 9.89
+    price: 6.8
+    selection: 2266721
+  - amount: 2.0
+    price: 55.0
+    selection: 1510918
+  - amount: 4.08
+    price: 2.84
+    selection: 2474239
+  - amount: 2.0
+    price: 55.0
+    selection: 2454056
+  - amount: 7.51
+    price: 4.0
+    selection: 2474240
+  - amount: 5.9
+    price: 65.0
+    selection: 2474241
+  - amount: 10.84
+    price: 8.6
+    selection: 2474242
+Sun Jul  8 18:01:23 2007:
+  - amount: 12.3
+    price: 9.6
+    selection: 2414548
+  - amount: 45.0
+    price: 7.4
+    selection: 2266721
+  - amount: 6.0
+    price: 4.5
+    selection: 1510918
+  - amount: 2.7
+    price: 2.32
+    selection: 2474239
+  - amount: 10.0
+    price: 3.4
+    selection: 2454056
+  - amount: 12.7
+    price: 3.7
+    selection: 2474240
+  - amount: 12.0
+    price: 7.2
+    selection: 2474241
+  - amount: 10.0
+    price: 2.98
+    selection: 2474242
+Sun Jul  8 18:01:39 2007:
+  - amount: 10.0
+    price: 2.54
+    selection: 2414548
+  - amount: 34.29
+    price: 7.4
+    selection: 2266721
+  - amount: 6.0
+    price: 4.5
+    selection: 1510918
+  - amount: 2.0
+    price: 2.7
+    selection: 2474239
+  - amount: 10.0
+    price: 3.4
+    selection: 2454056
+  - amount: 7.94
+    price: 1.7
+    selection: 2474240
+  - amount: 12.0
+    price: 7.2
+    selection: 2474241
+  - amount: 10.0
+    price: 2.98
+    selection: 2474242
+Sun Jul  8 18:01:54 2007:
+  - amount: 16.0
+    price: 40.0
+    selection: 2414548
+  - amount: 34.29
+    price: 7.4
+    selection: 2266721
+  - amount: 10.0
+    price: 2.02
+    selection: 1510918
+  - amount: 3.36
+    price: 2.68
+    selection: 2474239
+  - amount: 10.0
+    price: 2.14
+    selection: 2454056
+  - amount: 30.0
+    price: 1.4
+    selection: 2474240
+  - amount: 12.0
+    price: 7.2
+    selection: 2474241
+  - amount: 10.0
+    price: 2.14
+    selection: 2474242
+Sun Jul  8 18:02:09 2007:
+  - amount: 13.29
+    price: 40.0
+    selection: 2414548
+  - amount: 34.29
+    price: 7.4
+    selection: 2266721
+  - amount: 10.0
+    price: 2.02
+    selection: 1510918
+  - amount: 873.66
+    price: 1.01
+    selection: 2474239
+  - amount: 10.0
+    price: 2.02
+    selection: 2454056
+  - amount: 50.0
+    price: 7.0
+    selection: 2474240
+  - amount: 12.0
+    price: 7.2
+    selection: 2474241
+  - amount: 10.0
+    price: 2.02
+    selection: 2474242
+Sun Jul  8 18:02:25 2007:
+  - amount: 13.29
+    price: 40.0
+    selection: 2414548
+  - amount: 34.29
+    price: 7.4
+    selection: 2266721
+  - amount: 23.0
+    price: 2.04
+    selection: 1510918
+  - amount: 603.0
+    price: 1.01
+    selection: 2474239
+  - amount: 10.0
+    price: 2.12
+    selection: 2454056
+  - amount: 16.0
+    price: 40.0
+    selection: 2474240
+  - amount: 12.0
+    price: 7.2
+    selection: 2474241
+  - amount: 10.0
+    price: 2.02
+    selection: 2474242
