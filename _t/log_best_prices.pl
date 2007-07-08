@@ -1,8 +1,14 @@
 
 =head1 ABOUT
 
-This will log the best back price of a given market to a file at a 
+This will log the best back price of each selection in a given market to a file at a 
 given interval (eg. 2 seconds)
+
+The file is written in YAML format
+
+=head1 VERSION
+
+0.2
 
 =cut
 
@@ -10,6 +16,12 @@ use BetFair;
 use Data::Dumper;
 use Getopt::Long;
 use Time::Local;
+use YAML qw(Dump);
+
+# tell YML not to use headers when dumping data structure
+local $YAML::UseHeader = 0;
+
+print Dumper $YAML;
 
 my %opts = ();
 GetOptions (\%opts, 'p|pass=s', 'u|user=s', 'm|market=i', 'l|log=s', 'i|interval=i', 'verbose' );
@@ -33,13 +45,30 @@ $b->login;
 
 if ( -f $log && $opts{verbose} ) { print "appending $log \n"; }
 
+# fetch human readable market data
+$b->getMarket( $m );
+
+# write market data and each runner to the YML file
+my %out;
+$out{market} = $b->{'_data'}->{'getMarket'}->{$m}->{runners};
+my $line = Dump \%out;
+open(I, ">>$log") || die $!;
+print I $line || die $!;
+close I;
+
+# until the user intervention (eg. ctrl-z), append a YAML dump of the the best prices for all runners/selections
 while ( 1 )
 {
  open(I, ">>$log") || die $!;
  my $now = localtime time;
+ 
  print "$now\n" if $opts{verbose};
  $b->getBestPricesToBack( $m );
- my $line = $now . "," . $b->{_data}->{getMarketPrices}->{$m}->{getBestPricesToBack}->{amount} . "," . $b->{_data}->{getMarketPrices}->{$m}->{getBestPricesToBack}->{price} . $/;
+ 
+ my %out;
+ $out{$now} = $b->{_data}->{getMarketPrices}->{$m}->{getBestPricesToBack};
+ my $line = Dump \%out;
+
  print I $line || die $!;
  sleep( $interval );
  close I;

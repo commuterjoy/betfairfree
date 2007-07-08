@@ -205,28 +205,56 @@ sub getMarket
  $r->message( $message, 'getMarket' );
  $r->request();
 
- #print "getMarket response" . $r->{response} if $DEBUG;
+ print "getMarket response" . $r->{response};
 
  #clean data structure
  TRACE("$PACKAGE->getMarket : cleaning data structure \$self->{'_data'}->{'getMarket'}->{$marketId}", 1);
  $self->{'_data'}->{'getMarket'}->{$marketId} = {};
 
+ # get general market details
  my $x = new BetFair::Parser( { 'message' => $r->{response} } );
 
  while ( my ($key, $value) = each( %{$x->{xpath}->{getMarket}} ) )
  {
    my $result = $x->get_nodeSet( { xpath => $value } )->string_value();
    TRACE("$PACKAGE->getMarket : Found '$result', assigning to '$key'", 1);
-   self->{'_data'}->{'getMarket'}->{$marketId}->{$key} = $result;
+   $self->{'_data'}->{'getMarket'}->{$marketId}->{$key} = $result;
  }
+
+ # get details of runners
+ my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getMarketRunners}->{runners} } );
+ 
+ # temp array to store selection's 
+ my @data;
+
+ # for each selection in the market extract current price, money available, and selection id
+ foreach my $node ($n->get_nodelist)
+ {
+   # temp hash
+   my %g;
+   
+   # xpaths to extract text nodes
+   my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
+   my $n = $xp->getNodeText( '//name' );
+   my $s = $xp->getNodeText( '//selectionId' );
+   
+   $g{name} = "".$n;
+   $g{selection} = "".$s;
+   
+   # add the temporary hash to the selection array, and add to $self
+   push(@data, \%g); 
+   $self->{'_data'}->{'getMarket'}->{$marketId}->{runners} = \@data;
+ }
+
 
 }
 
+# for a given market, extract the price, amount available, id for each selection.
 sub getBestPricesToBack
 {
  my ($self, $marketId ) = @_;
 
- TRACE("* $PACKAGE->getBestPricesToBack : obtaining market price data for '$marketId'", 1);
+ TRACE("$PACKAGE->getBestPricesToBack : obtaining market price data for '$marketId'", 1);
 
  my $t = new BetFair::Template;
  my $params = {
@@ -234,8 +262,6 @@ sub getBestPricesToBack
          marketId => $marketId,
          };
  my $message = $t->populate( 'getMarketPrices' , $params );
-
- TRACE("* $PACKAGE->getBestPricesToBack : $message", 1);
 
  my $r = new BetFair::Request;
  $r->message( $message, 'getMarketPrices' );
@@ -250,18 +276,32 @@ sub getBestPricesToBack
  my $x = new BetFair::Parser( { 'message' => $r->{response} } ); 
 
  my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getBestPricesToBack}->{runnerPrices} } );
+ 
+ # temp array to store selection's 
+ my @data;
 
+ # for each selection in the market extract current price, money available, and selection id
  foreach my $node ($n->get_nodelist)
  {
-   my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($n->get_nodelist) );
+   # temp hash
+   my %g;
+   
+   # xpaths to extract text nodes
+   my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
    my $p = $xp->getNodeText( '//bestPricesToBack/*[1]/price' );
    my $a = $xp->getNodeText( '//bestPricesToBack/*[1]/amountAvailable' );
-   $self->{'_data'}->{'getMarketPrices'}->{$marketId}->{getBestPricesToBack}->{price} = "".$p;
-   $self->{'_data'}->{'getMarketPrices'}->{$marketId}->{getBestPricesToBack}->{amount} = "".$a;   
+   my $s = $xp->getNodeText( '//selectionId' );
+   
+   $g{price} = "".$p;
+   $g{amount} = "".$a;
+   $g{selection} = "".$s;
+   
+   # add the temporary hash to the selection array, and add to $self
+   push(@data, \%g); 
+   $self->{'_data'}->{'getMarketPrices'}->{$marketId}->{getBestPricesToBack} = \@data;
  }
 
 }
-
 
 sub getAccountStatement
 {
