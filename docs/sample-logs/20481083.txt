@@ -1,0 +1,161 @@
+# sample log from tennis -> wimbledon 2007 -> mens final -> match odds 
+# log data shows point where federer breaks Nadal serve in final set then goes on to hold.
+market:
+  - name: Roger Federer
+    selection: 2251402
+  - name: Rafael Nadal
+    selection: 2251410
+Sun Jul  8 17:47:40 2007:
+  - amount: 108.32
+    price: 1.28
+    selection: 2251402
+  - amount: 21.26
+    price: 4.7
+    selection: 2251410
+Sun Jul  8 17:47:50 2007:
+  - amount: 20194.6
+    price: 1.25
+    selection: 2251402
+  - amount: 75.05
+    price: 4.7
+    selection: 2251410
+Sun Jul  8 17:48:01 2007:
+  - amount: 68.24
+    price: 1.27
+    selection: 2251402
+  - amount: 50.0
+    price: 4.7
+    selection: 2251410
+Sun Jul  8 17:48:11 2007:
+  - amount: 33.16
+    price: 1.26
+    selection: 2251402
+  - amount: 6.76
+    price: 4.5
+    selection: 2251410
+Sun Jul  8 17:48:21 2007:
+  - amount: 7824.36
+    price: 1.25
+    selection: 2251402
+  - amount: 14.76
+    price: 4.5
+    selection: 2251410
+Sun Jul  8 17:48:32 2007:
+  - amount: 593.57
+    price: 1.16
+    selection: 2251402
+  - amount: 85.9
+    price: 7.0
+    selection: 2251410
+Sun Jul  8 17:48:42 2007:
+  - amount: 10451.78
+    price: 1.11
+    selection: 2251402
+  - amount: 40.44
+    price: 8.2
+    selection: 2251410
+Sun Jul  8 17:48:52 2007:
+  - amount: 507.03
+    price: 1.13
+    selection: 2251402
+  - amount: 261.17
+    price: 8.6
+    selection: 2251410
+Sun Jul  8 17:49:03 2007:
+  - amount: 821.85
+    price: 1.14
+    selection: 2251402
+  - amount: 1708.39
+    price: 8.0
+    selection: 2251410
+Sun Jul  8 17:49:13 2007:
+  - amount: 17300.25
+    price: 1.13
+    selection: 2251402
+  - amount: 44.0
+    price: 7.0
+    selection: 2251410
+Sun Jul  8 17:49:24 2007:
+  - amount: 250.01
+    price: 1.12
+    selection: 2251402
+  - amount: 511.61
+    price: 9.0
+    selection: 2251410
+Sun Jul  8 17:49:35 2007:
+  - amount: 1410.57
+    price: 1.12
+    selection: 2251402
+  - amount: 40.53
+    price: 8.2
+    selection: 2251410
+Sun Jul  8 17:49:45 2007:
+  - amount: 4485.58
+    price: 1.09
+    selection: 2251402
+  - amount: 550.0
+    price: 10.0
+    selection: 2251410
+Sun Jul  8 17:49:55 2007:
+  - amount: 5528.01
+    price: 1.09
+    selection: 2251402
+  - amount: 97.25
+    price: 9.0
+    selection: 2251410
+Sun Jul  8 17:50:05 2007:
+  - amount: 707.34
+    price: 1.08
+    selection: 2251402
+  - amount: 201.97
+    price: 12.0
+    selection: 2251410
+Sun Jul  8 17:50:16 2007:
+  - amount: 1320.24
+    price: 1.07
+    selection: 2251402
+  - amount: 19.15
+    price: 15.0
+    selection: 2251410
+Sun Jul  8 17:50:26 2007:
+  - amount: 40590.23
+    price: 1.06
+    selection: 2251402
+  - amount: 57.81
+    price: 13.5
+    selection: 2251410
+Sun Jul  8 17:50:36 2007:
+  - amount: 39911.62
+    price: 1.07
+    selection: 2251402
+  - amount: 11.07
+    price: 16.0
+    selection: 2251410
+Sun Jul  8 17:50:46 2007:
+  - amount: 29515.12
+    price: 1.07
+    selection: 2251402
+  - amount: 5.5
+    price: 14.0
+    selection: 2251410
+Sun Jul  8 17:50:57 2007:
+  - amount: 13830.72
+    price: 1.07
+    selection: 2251402
+  - amount: 353.28
+    price: 13.5
+    selection: 2251410
+Sun Jul  8 17:51:07 2007:
+  - amount: 40562.16
+    price: 1.06
+    selection: 2251402
+  - amount: 248.99
+    price: 14.0
+    selection: 2251410
+Sun Jul  8 17:51:17 2007:
+  - amount: 35881.57
+    price: 1.06
+    selection: 2251402
+  - amount: 1283.74
+    price: 15.0
+    selection: 2251410
