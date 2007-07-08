@@ -23,3 +23,5 @@ quite a good first port of call, it will (naturally) check your library dependen
 {{{
  perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m marketid
 }}}
+
+See the [http://betfairfree.googlecode.com/svn/trunk/docs/sample-logs/ sample logs] for a look at the output of this program.
