@@ -1,4 +1,4 @@
-
+#!/usr/bin/perl
 
 =head1 NAME
 
@@ -15,6 +15,20 @@ data.
 
 The template files are held in the ./tmpl/soap-responses directory, one per SOAP method.
 
+=head1 TEMPLATES 
+ 
+getAccountFunds
+getAccountStatement
+getActiveEventTypes
+getEvents
+getMarket
+getMarketPrices
+getMarketPricesCompressed - shorthand version of market prices xml
+getSubscriptionInfo 
+keepAlive - make sure we stay logged in
+login
+placeBets - place a single bet (either back or lay)
+ 
 =head1 DEPENDENCIES
 
 This package uses HTML::Template.
