@@ -6,16 +6,21 @@ Get hold of the Betfair API document, it's full of useful info
 
 http://bdp.betfair.com/exchdevelopers.php
 
-Intro to the betfairfree files
+This code current supports version 5 of the Betfair API
 
 /lib contains the Betfair modules and xpath modules.
 
 /conf contains some yaml files in various stages of development, including the 
 default.yml where debug can be turned on and off and the connect URIs are set
 
-/_t contains various perl scripts taht can be used for workng out what does what, 
+/tmpl contains the soap templates for sending. These are processed by 
+BetFair::Template using a HTML::Template to fill them in. 
 
-create a session
+See BetFair::Template for a list of what templates are available and therefore 
+what commands are currently supported by betfairfree. If you write support for 
+additional commands feel free to submit them back.
+
+/_t contains various perl scripts that can be used for workng out what does what, 
 
 quite a good first port of call, it will (naturally) check your library 
 dependencies and try to get a API session using your betfair.com login details.
@@ -31,13 +36,61 @@ log a market's best prices, every 10 seconds
  perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m marketid
 
 I'd start with getMarket.pl which returns market info when given login details 
-and a market id. you can then search that for  selection and combine that with 
+and a market id. you can then search that for a selection and combine that with 
 getMarketPrices to track the prices for an individual selection.
 
-/docs contains the example responses
+An example of how to use the code in a running script is given below.
 
-/tmpl contains the soap templates for sending. These are processed by 
-BetFair::Template using a HTML::Template to fill them in.
+/docs contains the example responses from Betfair.
+
+Example Code
+============
+
+# lets get the betfair session - 82 is the free api product code
+my $s = new BetFair::Session({  username => 'foo',  password => 'bar',  productId => 82 }  );
+
+# setup the template and request engines
+my $t = new BetFair::Template;
+my $r = new BetFair::Request;
+
+# pass the parameters into the getMarket Template
+my $message = $t->populate( 'getMarket', { session => $s->{key}, marketId => $marketid } );
+
+# make the request
+$r->message( $message, 'getMarket' );
+$r->request();
+my $returnedXML = $r->{response};
+
+# now parse the returned XML to get the selection id of the contender we want to bet on
+[code]
+
+# parse the response to get the new betfair params, the session may have changed 
+my $x = new BetFair::Parser( { 'message' => $r->{response} } );
+
+# so now we want prices - note that we use the session token returned 
+$message = $t->populate( 'getMarketPrices', { session => $x->get_sessionToken(), marketId => $marketid } );
+$r->message( $message, 'getMarketPrices' );
+$r->request();
+$marketpricexml = $r->{response};
+$x = new BetFair::Parser( { 'message' => $r->{response} } );
+
+# parse the xml returned for our selection and check that  we're happy with the price
+[code]
+
+# So lets place a back bet
+$t->populate( 'placeBets', { session => $x->get_sessionToken(), marketId => $marketid, selectionid => $selectionid, price => $betprice, size => $stake ,  
+bettype => 'B' } );
+$r->message( $message, 'placeBets' );
+$r->request();
+my $returnedXML = $r->{response};
+
+# parse the XML and make sure we got the bet on
+[code]
+
+# crack open the bubbly and wait for the money to roll in :-)
+
+Throttling
+==========
 
 The free betfair API is throttled by Betfair, there is a throttling engine 
 within this API but it does not keep state between script runs.

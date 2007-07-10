@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 
 =head1 NAME
 
@@ -56,6 +57,7 @@ my %throttle =
 	 'getMarket' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
 	 'getMarketPrices' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
 	 'getAccountStatement' => { 'limit' => 2, 'call' => 0, 'count' =>  0 },
+         'placeBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
 	);
 
 
