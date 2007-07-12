@@ -46,45 +46,33 @@ An example of how to use the code in a running script is given below.
 Example Code
 ============
 
-# lets get the betfair session - 82 is the free api product code
-my $s = new BetFair::Session({  username => 'foo',  password => 'bar',  productId => 82 }  );
+# lets setup a new BetFair object - 82 is the free api product code
 
-# setup the template and request engines
-my $t = new BetFair::Template;
-my $r = new BetFair::Request;
+my $b = new BetFair({  username => 'foo',  password => 'bar',  productId => 82 }  );
 
-# pass the parameters into the getMarket Template
-my $message = $t->populate( 'getMarket', { session => $s->{key}, marketId => $marketid } );
-
-# make the request
-$r->message( $message, 'getMarket' );
-$r->request();
-my $returnedXML = $r->{response};
+# pull out the details for the market we want - (submit_request returns 0 if it got an error)
+unless ($b->submit_request( 'getMarket', { marketId => $marketid } )) {
+	die $b->{error} if $b->{error};
+}
 
 # now parse the returned XML to get the selection id of the contender we want to bet on
+my $returnedXML = $b->{response};
 [code]
 
-# parse the response to get the new betfair params, the session may have changed 
-my $x = new BetFair::Parser( { 'message' => $r->{response} } );
-
-# so now we want prices - note that we use the session token returned 
-$message = $t->populate( 'getMarketPrices', { session => $x->get_sessionToken(), marketId => $marketid } );
-$r->message( $message, 'getMarketPrices' );
-$r->request();
-$marketpricexml = $r->{response};
-$x = new BetFair::Parser( { 'message' => $r->{response} } );
+# so now we want prices on our selection (submit_request returns 0 if it got an error)
+unless ($b->submit_request( 'getMarketPrices', { marketId => $marketid } ) ) {
+	die $b->{error};
+} 
 
 # parse the xml returned for our selection and check that  we're happy with the price
+$returnedXML = $b->{response};
 [code]
 
 # So lets place a back bet
-$t->populate( 'placeBets', { session => $x->get_sessionToken(), marketId => $marketid, selectionid => $selectionid, price => $betprice, size => $stake ,  
-bettype => 'B' } );
-$r->message( $message, 'placeBets' );
-$r->request();
-my $returnedXML = $r->{response};
+$b->submit_request( 'placeBets', { marketId => $marketid, selectionid => $selectionid, price => $betprice, size => $stake ,  bettype => 'B' } );
 
 # parse the XML and make sure we got the bet on
+$returnedXML = $b->{response};
 [code]
 
 # crack open the bubbly and wait for the money to roll in :-)
@@ -93,7 +81,7 @@ Throttling
 ==========
 
 The free betfair API is throttled by Betfair, there is a throttling engine 
-within this API but it does not keep state between script runs.
+within this API which reports if you run in debug mode
 
 # notes for throttle levels
 

@@ -4,14 +4,13 @@
 
 usage: perl t_getAccountFunds.pl --user [username] --passwd [password]
 
-This test should log in via BetFair::Session, and return the output of the
+This test should log in using the BetFair module, and return the output of the
 getAccountFunds SOAP method, ie. your Betfair bank balance.
 
 =cut
 
 use strict;
-use BetFair::Session;
-use BetFair::Template;
+use BetFair;
 use Data::Dumper;
 use Getopt::Long;
 
@@ -28,22 +27,16 @@ my $params =
   productId => 82
  };
 
-my $s = new BetFair::Session( $params ); # assign session key to $s->{key}
-
-# define the message to send, with session key
-my $t = new BetFair::Template;
-my $params2 = {
-                session => $s->{key}
-             };
-my $message = $t->populate( 'getAccountFunds', $params2 );
+# Setup the Betfair object
+my $b = BetFair->new( $params ); 
 
 # make request for your account information
-my $r = new BetFair::Request;
-$r->message( $message, 'getAccountFunds' );
-$r->request();
-
-# render response using the Parser & Xpath
-my $p = new BetFair::Parser( { 'message' => $r->{response} } ); 
-my $balance = $p->get_nodeSet( { 'xpath' => '/soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/availBalance' } );
-
-print $balance;
+if ($b->submit_request( 'getAccountFunds')) {
+	# render response using the Parser & Xpath
+	my $p = new BetFair::Parser( { 'message' => $b->{response} }  ); 
+	my $balance = $p->get_nodeSet( { 'xpath' => '/soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/availBalance' } );
+	print $balance;
+} else {
+	# we got an error from betfair
+	print $b->{error};
+}
