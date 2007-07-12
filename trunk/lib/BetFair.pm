@@ -5,7 +5,8 @@ BetFair
 
 =head1 SYNOPSIS
 
-Mostly factory methods for other parts of the system.
+Mostly factory methods for other parts of the system. See the README for
+examples and useful code bits
 
 =head1 AUTHOR
 
@@ -34,7 +35,10 @@ sub new
 	my $objref = {
 		'_options' => $params,
 		'loggedIn' => 0,
+		'response' => '',
+		'error' => '',
 		};
+	
 	bless $objref, $class;
 	return $objref;
 }
@@ -49,6 +53,27 @@ sub login
   $self->{_options}->{password} = 'HIDDEN_POST_LOGIN';
   return 1;
  }
+
+sub submit_request
+{
+ my ( $self, $type, $params ) = @_;
+
+ $self->login unless ( $self->{loggedIn} );
+
+ my $t = new BetFair::Template;
+ $params->{session} = $self->{sessionToken};
+
+ my $message = $t->populate( $type, $params );
+
+ my $r = new BetFair::Request;
+ $r->message( $message, $type );
+ $r->request();
+ my $x = new BetFair::Parser( { 'message' => $r->{response} } );
+ $self->{sessionToken} =  $x->get_sessionToken();
+ $self->{response} = $r->{response};
+ $self->{error} = ($x->get_responseError eq 'OK') ? '' : $x->get_responseError;
+ return ($self->{error}) ? '0' : '1';
+}
 
 sub getAccountFunds
  {
