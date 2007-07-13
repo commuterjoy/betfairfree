@@ -1,5 +1,5 @@
 
-Getting started 
+Introduction 
 ===============
 
 Get hold of the Betfair API document, it's full of useful info
@@ -20,62 +20,90 @@ See BetFair::Template for a list of what templates are available and therefore
 what commands are currently supported by betfairfree. If you write support for 
 additional commands feel free to submit them back.
 
-/_t contains various perl scripts that can be used for workng out what does what, 
+/_t contains various perl scripts that can be used for workng out what does 
+what, 
 
-quite a good first port of call, it will (naturally) check your library 
-dependencies and try to get a API session using your betfair.com login details.
+/docs contains the example responses from Betfair.
 
- perl -I./lib _t/session.pl -u username -p password
+Getting Started
+===========
 
-check your available balance
+The quickest way to check everything is working is to run the getAccountFunds.pl 
+script that you'll find in _t . You'll need to run it from the main betfair
+directory so it picks up the Betfair perl modules.
 
  perl -I./lib _t/getAccountFunds.pl -u username -p password
 
+This will return a whole load of debugging output with your balance at the end. 
+We leave debug on so that you can see what's happening, to turn it off see
+default.yml
+
 log a market's best prices, every 10 seconds
 
- perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m marketid
+ perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m
+ marketid
 
-I'd start with getMarket.pl which returns market info when given login details 
+There are several other one off scripts used to test various parts of the 
+templates and to provide useful info. 
+
+For example  getMarket.pl which returns market info when given login details 
 and a market id. you can then search that for a selection and combine that with 
 getMarketPrices to track the prices for an individual selection.
 
-An example of how to use the code in a running script is given below.
-
-/docs contains the example responses from Betfair.
+An example is provided below on how to combine several template calls into an 
+an application which maintains the session and is easy to process. You setup 
+your betfair object at the start of the script and then you can make multiple 
+submit_request calls and parse the response each time.
 
 Example Code
 ============
 
 # lets setup a new BetFair object - 82 is the free api product code
 
-my $b = new BetFair({  username => 'foo',  password => 'bar',  productId => 82 }  );
+my $b = new BetFair({	username => 'foo',  
+					password => 'bar',
+					productId => 82 } );
 
-# pull out the details for the market we want - (submit_request returns 0 if it got an error)
+# pull out the details for the market we want - (submit_request returns 0 if it 
+# got an error)
 unless ($b->submit_request( 'getMarket', { marketId => $marketid } )) {
 	die $b->{error} if $b->{error};
 }
 
-# now parse the returned XML to get the selection id of the contender we want to bet on
-my $returnedXML = $b->{response};
+# now parse the returned XML to get the selection id of the contender
+# we want to bet on my $returnedXML = $b->{response};
 [code]
 
-# so now we want prices on our selection (submit_request returns 0 if it got an error)
+# so now we want prices on our selection 
+# note that submit_request returns 0 if it got an error
 unless ($b->submit_request( 'getMarketPrices', { marketId => $marketid } ) ) {
 	die $b->{error};
 } 
 
-# parse the xml returned for our selection and check that  we're happy with the price
+# parse the xml returned for our selection and check that we're happy with the 
+# price returned 
 $returnedXML = $b->{response};
 [code]
 
 # So lets place a back bet
-$b->submit_request( 'placeBets', { marketId => $marketid, selectionid => $selectionid, price => $betprice, size => $stake ,  bettype => 'B' } );
+$b->submit_request( 'placeBets', { marketId => $marketid, selectionid => 
+$selectionid, price => $betprice, size => $stake ,  bettype => 'B' } );
 
 # parse the XML and make sure we got the bet on
 $returnedXML = $b->{response};
 [code]
 
-# crack open the bubbly and wait for the money to roll in :-)
+
+Supported API actions
+================
+
+The list of supported actions are in the Betfair::Template module. The Betfair 
+API supports more than this but the betfairfree template has not been written 
+yet. If you write support for a new action please consider submitting it back.
+
+There are some combined actions supported by using the Betfair object. For 
+example there is a $b->getAccountFunds action that needs no arguments and 
+will return your balance. Please see Betfair.pm for more info.
 
 Throttling
 ==========
