@@ -68,9 +68,11 @@ sub submit_request
  my $r = new BetFair::Request;
  $r->message( $message, $type );
  $r->request();
+
  my $x = new BetFair::Parser( { 'message' => $r->{response} } );
  $self->{sessionToken} =  $x->get_sessionToken();
  $self->{response} = $r->{response};
+ 
  $self->{error} = ($x->get_responseError eq 'OK') ? '' : $x->get_responseError;
  return ($self->{error}) ? '0' : '1';
 }
@@ -81,33 +83,14 @@ sub getAccountFunds
 
  TRACE("* $PACKAGE->getAccountFunds : obtaining your account funds", 1);
 
- print "You must log in" unless $self->{loggedIn};
-
- my $t = new BetFair::Template;
- my $params2 = {
-               session => $self->{sessionToken}
-             };
- my $message = $t->populate( 'getAccountFunds', $params2 );
-
- my $r = new BetFair::Request;
- $r->message( $message, 'getAccountFunds' );
- $r->request();
-# print "*** $r->{response} *** \n" if $DEBUG;
-# print Dumper $r if $DEBUG;
-
- my $x = new BetFair::Parser( { 'message' => $r->{response} } );
- my $session = $x->get_sessionToken();
-
-# update object session token. TODO - should we?
-# $self->{sessionToken} = $s->{key};
-
- while ( my ($key, $value) = each( %{$x->{xpath}->{getAccountFunds}} ) )
- {
-   print "*** $key => $value => " . $x->get_nodeSet( { xpath => $value } )->string_value() . "\n" if $DEBUG;
-   $self->{'_data'}->{'getAccountFunds'}->{$key} = $x->get_nodeSet( { xpath => $value } )->string_value();
+ if ($self->submit_request('getAccountFunds')) {
+	 my $p = new BetFair::Parser( { 'message' => $self->{response} }  ); 
+	 my $balancenode = $p->get_nodeSet( { 'xpath' => '/soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/availBalance' } );
+	 return $balancenode->string_value();
+ } else {
+	 return 0;
  }
- # TODO - add error code
- }
+}
 
 sub getSubscriptionInfo
  {
