@@ -1,0 +1,301 @@
+# sample log with easy to sort keys
+# Ascot 14th Jul - 14:50 1m Grp 2
+market:
+  - name: Cesare
+    selection: 775823
+  - name: Echo Of Light
+    selection: 877586
+  - name: Royal Oath
+    selection: 1483193
+  - name: Heaven Sent
+    selection: 1198805
+  - name: Racinger
+    selection: 1318904
+  - name: Dunelight
+    selection: 1205275
+  - name: Banknote
+    selection: 828988
+  - name: Dark Islander
+    selection: 1197418
+  - name: Charlie Cool
+    selection: 1207252
+20070714140818:
+  - amount: 91.59
+    price: 3.0
+    selection: 775823
+  - amount: 9.55
+    price: 3.95
+    selection: 877586
+  - amount: 46.22
+    price: 9.0
+    selection: 1483193
+  - amount: 311.14
+    price: 7.8
+    selection: 1198805
+  - amount: 117.5
+    price: 15.5
+    selection: 1318904
+  - amount: 49.4
+    price: 17.0
+    selection: 1205275
+  - amount: 28.48
+    price: 48.0
+    selection: 828988
+  - amount: 16.01
+    price: 50.0
+    selection: 1197418
+  - amount: 7.51
+    price: 44.0
+    selection: 1207252
+20070714140821:
+  - amount: 91.59
+    price: 3.0
+    selection: 775823
+  - amount: 9.55
+    price: 3.95
+    selection: 877586
+  - amount: 46.22
+    price: 9.0
+    selection: 1483193
+  - amount: 311.14
+    price: 7.8
+    selection: 1198805
+  - amount: 117.5
+    price: 15.5
+    selection: 1318904
+  - amount: 54.3
+    price: 17.0
+    selection: 1205275
+  - amount: 3.64
+    price: 50.0
+    selection: 828988
+  - amount: 16.01
+    price: 50.0
+    selection: 1197418
+  - amount: 7.51
+    price: 44.0
+    selection: 1207252
+20070714140826:
+  - amount: 197.43
+    price: 3.0
+    selection: 775823
+  - amount: 725.91
+    price: 3.9
+    selection: 877586
+  - amount: 61.19
+    price: 9.0
+    selection: 1483193
+  - amount: 323.16
+    price: 7.8
+    selection: 1198805
+  - amount: 125.67
+    price: 15.5
+    selection: 1318904
+  - amount: 60.05
+    price: 17.0
+    selection: 1205275
+  - amount: 19.06
+    price: 50.0
+    selection: 828988
+  - amount: 42.5
+    price: 50.0
+    selection: 1197418
+  - amount: 25.19
+    price: 44.0
+    selection: 1207252
+20070714140832:
+  - amount: 189.41
+    price: 3.0
+    selection: 775823
+  - amount: 725.91
+    price: 3.9
+    selection: 877586
+  - amount: 59.19
+    price: 9.0
+    selection: 1483193
+  - amount: 318.16
+    price: 7.8
+    selection: 1198805
+  - amount: 125.67
+    price: 15.5
+    selection: 1318904
+  - amount: 60.05
+    price: 17.0
+    selection: 1205275
+  - amount: 12.21
+    price: 50.0
+    selection: 828988
+  - amount: 51.7
+    price: 50.0
+    selection: 1197418
+  - amount: 25.19
+    price: 44.0
+    selection: 1207252
+20070714140838:
+  - amount: 189.41
+    price: 3.0
+    selection: 775823
+  - amount: 604.77
+    price: 3.9
+    selection: 877586
+  - amount: 59.19
+    price: 9.0
+    selection: 1483193
+  - amount: 318.16
+    price: 7.8
+    selection: 1198805
+  - amount: 125.67
+    price: 15.5
+    selection: 1318904
+  - amount: 60.05
+    price: 17.0
+    selection: 1205275
+  - amount: 12.21
+    price: 50.0
+    selection: 828988
+  - amount: 51.7
+    price: 50.0
+    selection: 1197418
+  - amount: 25.19
+    price: 44.0
+    selection: 1207252
+20070714140843:
+  - amount: 203.69
+    price: 3.0
+    selection: 775823
+  - amount: 590.54
+    price: 3.9
+    selection: 877586
+  - amount: 59.19
+    price: 9.0
+    selection: 1483193
+  - amount: 318.16
+    price: 7.8
+    selection: 1198805
+  - amount: 125.67
+    price: 15.5
+    selection: 1318904
+  - amount: 60.05
+    price: 17.0
+    selection: 1205275
+  - amount: 16.24
+    price: 50.0
+    selection: 828988
+  - amount: 59.6
+    price: 50.0
+    selection: 1197418
+  - amount: 29.78
+    price: 44.0
+    selection: 1207252
+20070714140849:
+  - amount: 203.69
+    price: 3.0
+    selection: 775823
+  - amount: 590.54
+    price: 3.9
+    selection: 877586
+  - amount: 59.19
+    price: 9.0
+    selection: 1483193
+  - amount: 318.16
+    price: 7.8
+    selection: 1198805
+  - amount: 125.67
+    price: 15.5
+    selection: 1318904
+  - amount: 60.05
+    price: 17.0
+    selection: 1205275
+  - amount: 16.24
+    price: 50.0
+    selection: 828988
+  - amount: 59.6
+    price: 50.0
+    selection: 1197418
+  - amount: 3.5
+    price: 46.0
+    selection: 1207252
+20070714140854:
+  - amount: 203.69
+    price: 3.0
+    selection: 775823
+  - amount: 500.54
+    price: 3.9
+    selection: 877586
+  - amount: 59.19
+    price: 9.0
+    selection: 1483193
+  - amount: 318.16
+    price: 7.8
+    selection: 1198805
+  - amount: 125.67
+    price: 15.5
+    selection: 1318904
+  - amount: 60.05
+    price: 17.0
+    selection: 1205275
+  - amount: 25.58
+    price: 50.0
+    selection: 828988
+  - amount: 59.6
+    price: 50.0
+    selection: 1197418
+  - amount: 29.78
+    price: 44.0
+    selection: 1207252
+20070714140900:
+  - amount: 189.69
+    price: 3.0
+    selection: 775823
+  - amount: 500.54
+    price: 3.9
+    selection: 877586
+  - amount: 59.19
+    price: 9.0
+    selection: 1483193
+  - amount: 318.16
+    price: 7.8
+    selection: 1198805
+  - amount: 125.67
+    price: 15.5
+    selection: 1318904
+  - amount: 60.05
+    price: 17.0
+    selection: 1205275
+  - amount: 25.58
+    price: 50.0
+    selection: 828988
+  - amount: 59.6
+    price: 50.0
+    selection: 1197418
+  - amount: 29.78
+    price: 44.0
+    selection: 1207252
+20070714140905:
+  - amount: 189.69
+    price: 3.0
+    selection: 775823
+  - amount: 497.54
+    price: 3.9
+    selection: 877586
+  - amount: 59.19
+    price: 9.0
+    selection: 1483193
+  - amount: 318.16
+    price: 7.8
+    selection: 1198805
+  - amount: 125.67
+    price: 15.5
+    selection: 1318904
+  - amount: 60.05
+    price: 17.0
+    selection: 1205275
+  - amount: 25.58
+    price: 50.0
+    selection: 828988
+  - amount: 59.6
+    price: 50.0
+    selection: 1197418
+  - amount: 29.78
+    price: 44.0
+    selection: 1207252

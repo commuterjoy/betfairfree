@@ -30,12 +30,12 @@ use BetFair::Trace qw( TRACE );
 my $PACKAGE = 'BetFair::Parser';
 my $VERSION = '';
 
+my $conf = new BetFair::Config;
+
 sub new
 {
-        my ( $class, $params ) = @_;
+    my ( $class, $params ) = @_;
 		
-	my $conf = ( $params->{config} ) ? new BetFair::Config( $params->{config} ) : new BetFair::Config;
-
 	TRACE("$PACKAGE : Creating a new Parser, with data file '$conf->{xpath_conf}'",1);
 
         my $objref = {
@@ -78,7 +78,9 @@ sub get_sessionToken
  
   TRACE("$PACKAGE->get_sessionToken : Found '".$nodeset->string_value()."'", 1);
 
-  return $nodeset->string_value();
+  my $session = $nodeset->string_value();
+  
+  return $session;
 }
 
 

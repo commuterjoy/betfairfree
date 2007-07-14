@@ -26,3 +26,6 @@ THROTTLE_EXCEEDED : "slow down"
 # directory to write log files to. leave blank if you do not want various processes to write logs, blank to turn off
 log : log/
 
+# each time a request is made we can cache the session key returned. this allows multiple applications
+# to bypass the login and use the same session
+session : log/session

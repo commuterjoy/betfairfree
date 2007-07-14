@@ -6,9 +6,21 @@ given interval (eg. 2 seconds)
 
 The file is written in YAML format
 
+=head1 USAGE
+
+ # log a market's, every 10 seconds
+ perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m marketid
+
 =head1 VERSION
 
-0.2
+0.3
+
+=head1 Notes
+
+ * v0.3 - logs now use a formatted date as the YAML key for each entry for ease of sorting
+ * v0.2 - logs prices and amount available data for all runners in the market
+        - includes a summary of the market at head of log file
+ * v0.1 - functional proof of concept
 
 =cut
 
@@ -17,11 +29,10 @@ use Data::Dumper;
 use Getopt::Long;
 use Time::Local;
 use YAML qw(Dump);
+use POSIX qw(strftime);
 
 # tell YML not to use headers when dumping data structure
 local $YAML::UseHeader = 0;
-
-print Dumper $YAML;
 
 my %opts = ();
 GetOptions (\%opts, 'p|pass=s', 'u|user=s', 'm|market=i', 'l|log=s', 'i|interval=i', 'verbose' );
@@ -45,33 +56,60 @@ $b->login;
 
 if ( -f $log && $opts{verbose} ) { print "appending $log \n"; }
 
-# fetch human readable market data
-$b->getMarket( $m );
+# write market data and each runner to the YML file, but only if the file doesn't exist
+unless ( -f $log )
+ {
+    # fetch human readable market data
+    $b->getMarket( $m );
+    
+    # convert the extracted data to a YAML data structure via Dump
+    my %out;
+    $out{market} = $b->{'_data'}->{'getMarket'}->{$m}->{runners};
+    my $line = Dump \%out;
 
-# write market data and each runner to the YML file
-my %out;
-$out{market} = $b->{'_data'}->{'getMarket'}->{$m}->{runners};
-my $line = Dump \%out;
-open(I, ">>$log") || die $!;
-print I $line || die $!;
-close I;
-
+    # write to file
+     _log( $line );
+ }
+ 
 # until the user intervention (eg. ctrl-z), append a YAML dump of the the best prices for all runners/selections
 while ( 1 )
 {
- open(I, ">>$log") || die $!;
- my $now = localtime time;
- 
+
+ # get time
+ my $now = _time(); 
  print "$now\n" if $opts{verbose};
- $b->getBestPricesToBack( $m );
  
+ # fetch the best prices from Betfair
+ $b->getBestPricesToBack( $m );
+  
+ # convert the extracted data to a YAML data structure via Dump 
  my %out;
  $out{$now} = $b->{_data}->{getMarketPrices}->{$m}->{getBestPricesToBack};
  my $line = Dump \%out;
 
- print I $line || die $!;
+ # log to file
+ _log( $line );
+ 
+ # sleep for the given interval (in seconds)
  sleep( $interval );
- close I;
+
 }
 
+# utility routine for writing a line to a log file
+sub _log
+ {
+    my $line = shift;
+    open(I, ">>$log") || die $!;
+    print I $line || die $!;
+    close I;
+ }
+
+# returns current time formatted as YYYYMMDDHHMMSS
+sub _time
+ {
+  my $now = time(); 
+  my $tz = strftime("%z", localtime($now));
+  $tz =~ s/(\d{2})(\d{2})/$1:$2/;
+  strftime("%Y%m%d%H%M%S", localtime($now));
+ }
 
