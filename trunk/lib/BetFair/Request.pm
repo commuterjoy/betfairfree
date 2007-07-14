@@ -44,7 +44,7 @@ sub new
         my $objref = {
 		response => '',
 		message => '',
-		logfile => $conf->{log},
+		logfile => $conf->{log} . '/request.log',
 		type => '',
 	        throttle => new BetFair::Throttle
                 };
@@ -85,9 +85,9 @@ sub request
   
   if ( $conf->{log} )
   {
-      TRACE("$PACKAGE->request log directory '$conf->{logging}' does not exist", 1) unless ( -e $conf->{logging} );
+      TRACE("$PACKAGE->request log directory '$self->{logfile}' does not exist", 1) unless ( -e $self->{logfile} );
       
-      open(LOG, ">>".$self->{logfile}."/request.log") || TRACE($!);
+      open(LOG, ">>".$self->{logfile}) || TRACE($!);
       print LOG "--- Request ----------\n";
       print LOG $self->{message} . $/;  # TODO - password isn't hidden here & should be.
       print LOG "--- Response ---------\n";
