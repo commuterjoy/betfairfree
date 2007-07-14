@@ -44,6 +44,7 @@ sub new
         my $objref = {
 		response => '',
 		message => '',
+		logfile => $conf->{log},
 		type => '',
 	        throttle => new BetFair::Throttle
                 };
@@ -65,6 +66,8 @@ sub request
  TRACE("$PACKAGE : LWP calling $soap_uri", 1);
 
  my $userAgent = LWP::UserAgent->new();
+ $userAgent->env_proxy;
+ 
  my $request = HTTP::Request->new( POST => $soap_uri );
 
  $request->header( SOAPAction => $soap_header );
@@ -77,7 +80,22 @@ sub request
   my $response = $userAgent->request($request);
   $self->{response} = $response->{'_content'};
   $self->{throttle}->touch( $self->{type} );
-
+  
+  # log the request/response
+  
+  if ( $conf->{log} )
+  {
+      TRACE("$PACKAGE->request log directory '$conf->{logging}' does not exist", 1) unless ( -e $conf->{logging} );
+      
+      open(LOG, ">>".$self->{logfile}."/request.log") || TRACE($!);
+      print LOG "--- Request ----------\n";
+      print LOG $self->{message} . $/;  # TODO - password isn't hidden here & should be.
+      print LOG "--- Response ---------\n";
+      print LOG $response->{'_content'} . $/;
+      print LOG "\n\n**********************\n\n";
+      close LOG;
+  }
+  
   TRACE($response->{'_content'}, 2);
 
   # check response is parsable

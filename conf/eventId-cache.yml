@@ -1,4 +1,4 @@
-# cache of eventId's. Allows quick access to particular events 
+# cache of eventId's in YAML. Allows quick access to particular events 
 # in the hierarchy without have to navigate/recurse around the place.
 # these are not officially constant values, but they seem fairly static.
 # where in doubt, cross check directly with the Betfair server.
@@ -6,3 +6,29 @@
 American Football : 6423
 Soccer : 1
 Soccer Fixtures : 14 
+Ice Hockey : 7524  
+Cycling : 11
+Horse Racing : 7
+Tennis : 2
+Combat Sports : 4968929
+Pelota : 5412697
+Greyhound Racing : 4339
+Volleyball : 998917
+Politics : 2378961
+Water Polo : 2901849
+Horse Racing - Todays Card : 13
+Australian Rules : 61420
+Poker : 315220
+Boxing : 6
+Gaelic Games : 2152880
+Golf : 3
+Netball : 606611
+Greyhound - Todays Card : 15
+Motor Sport : 8 
+Baseball : 7511
+Cricket : 4
+Basketball : 7522
+Special Bets : 10
+Financial Bets : 6231
+Rugby Union : 5
+Rugby League : 1477
