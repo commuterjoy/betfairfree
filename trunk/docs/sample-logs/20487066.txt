@@ -1,0 +1,136 @@
+market:
+  - name: 1. Frisk Me
+    selection: 1404961
+  - name: 2. Sporting Pop Star
+    selection: 2479538
+  - name: 3. The Baptist
+    selection: 1252766
+  - name: 4. Jarrah
+    selection: 1270165
+  - name: 5. Lord Faberge
+    selection: 2464882
+  - name: 6. Shark Alley
+    selection: 2467537
+  - name: 7. Sea Soldier
+    selection: 2479539
+  - name: 8. Star Of Destiny
+    selection: 2479540
+  - name: 9. Wood Fella
+    selection: 2267606
+  - name: 10. Jewelcase
+    selection: 888975
+  - name: 12. Point Of Gold
+    selection: 1336675
+  - name: 13. Naval Crown
+    selection: 2479541
+Sat Jul 14 13:14:26 2007:
+  - amount: 2.7
+    price: 29.0
+    selection: 1404961
+  - amount: 3.9
+    price: 14.0
+    selection: 2479538
+  - amount: 27.0
+    price: 5.7
+    selection: 1252766
+  - amount: 3.36
+    price: 24.0
+    selection: 1270165
+  - amount: 4.01
+    price: 8.8
+    selection: 2464882
+  - amount: 2.0
+    price: 13.0
+    selection: 2467537
+  - amount: 52.14
+    price: 14.0
+    selection: 2479539
+  - amount: 6.3
+    price: 4.9
+    selection: 2479540
+  - amount: 2.0
+    price: 36.0
+    selection: 2267606
+  - amount: 17.07
+    price: 29.0
+    selection: 888975
+  - amount: 4.0
+    price: 18.0
+    selection: 1336675
+  - amount: 7.28
+    price: 9.0
+    selection: 2479541
+Sat Jul 14 13:14:31 2007:
+  - amount: 2.7
+    price: 29.0
+    selection: 1404961
+  - amount: 3.9
+    price: 14.0
+    selection: 2479538
+  - amount: 26.96
+    price: 5.7
+    selection: 1252766
+  - amount: 3.36
+    price: 24.0
+    selection: 1270165
+  - amount: 3.97
+    price: 8.8
+    selection: 2464882
+  - amount: 2.0
+    price: 13.0
+    selection: 2467537
+  - amount: 52.14
+    price: 14.0
+    selection: 2479539
+  - amount: 299.75
+    price: 4.8
+    selection: 2479540
+  - amount: 2.0
+    price: 36.0
+    selection: 2267606
+  - amount: 17.07
+    price: 29.0
+    selection: 888975
+  - amount: 4.0
+    price: 18.0
+    selection: 1336675
+  - amount: 7.28
+    price: 9.0
+    selection: 2479541
+Sat Jul 14 13:14:37 2007:
+  - amount: 2.7
+    price: 29.0
+    selection: 1404961
+  - amount: 3.9
+    price: 14.0
+    selection: 2479538
+  - amount: 26.96
+    price: 5.7
+    selection: 1252766
+  - amount: 3.36
+    price: 24.0
+    selection: 1270165
+  - amount: 3.97
+    price: 8.8
+    selection: 2464882
+  - amount: 5.89
+    price: 12.5
+    selection: 2467537
+  - amount: 52.14
+    price: 14.0
+    selection: 2479539
+  - amount: 294.33
+    price: 4.8
+    selection: 2479540
+  - amount: 3.0
+    price: 34.0
+    selection: 2267606
+  - amount: 15.07
+    price: 29.0
+    selection: 888975
+  - amount: 4.0
+    price: 18.0
+    selection: 1336675
+  - amount: 4.57
+    price: 9.0
+    selection: 2479541

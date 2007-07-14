@@ -1,9 +1,28 @@
+# turn on tracing output
 debug : 1
+
+# useful xpaths
 xpath_conf : conf/xpath.yml
+
+# a cached list of top-level event id's, eg. Soccer = 1
 event_id_cache : conf/eventId-cache.yml
+
+# end points for SOAP requests
 soap_global_uri : https://api.betfair.com/global/v3/BFGlobalService
 soap_exchange_uri : https://api.betfair.com/exchange/v3/BFExchangeService
+
+# soap request templates (HTML::Template)
 soap_response_templates : tmpl/soap-responses/
+
+# seconds to wait in between reseting throttle requests
 cycle : 60
-error : 
+
+# ??
+error :
+
+# message to print when the throttle has been exceeded 
 THROTTLE_EXCEEDED : "slow down"
+
+# directory to write log files to. leave blank if you do not want various processes to write logs, blank to turn off
+log : log/
+
