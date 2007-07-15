@@ -25,3 +25,15 @@ quite a good first port of call, it will (naturally) check your library dependen
 }}}
 
 See the [http://betfairfree.googlecode.com/svn/trunk/docs/sample-logs/ sample logs] for a look at the output of this program.
+
+*place a £2 bet on a market at odds of 2.43*
+{{{
+ perl -I./lib _t/place_a_bet.pl -u [user] -p [pass] -m 21031232 -s 123512 -b 2.00 -o 2.43 -back
+}}}
+
+*generate a 300px by 500px graph for YAML data source foo.txt, cap any odds over 100/1*
+{{{
+ ./perl -I./lib _t/yml_grapher.pl -d foo.txt -h 300 -w 500 -c 100
+}}}
+
+http://betfairfree.googlecode.com/svn/trunk/docs/sample-graphs/20486955.gif
