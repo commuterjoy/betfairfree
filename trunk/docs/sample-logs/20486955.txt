@@ -1,0 +1,619 @@
+# Chest 14th Jul - 16:45 1m7f Hcap
+# logged every 10 seconds
+market:
+  - name: Madaarek
+    selection: 2126822
+  - name: Nero West
+    selection: 1315816
+  - name: Dr Sharp
+    selection: 166950
+  - name: Establishment
+    selection: 58452
+  - name: York Cliff
+    selection: 10571
+  - name: Hello Its Me
+    selection: 555399
+  - name: Acuzio
+    selection: 800155
+  - name: Al Moulatham
+    selection: 144586
+20070714164500:
+  - amount: 1810.7
+    price: 3.35
+    selection: 2126822
+  - amount: 196.27
+    price: 4.8
+    selection: 1315816
+  - amount: 300.24
+    price: 7.4
+    selection: 166950
+  - amount: 110.4
+    price: 10.5
+    selection: 58452
+  - amount: 148.74
+    price: 12.5
+    selection: 10571
+  - amount: 23.54
+    price: 12.5
+    selection: 555399
+  - amount: 60.96
+    price: 9.6
+    selection: 800155
+  - amount: 97.85
+    price: 65.0
+    selection: 144586
+20070714164511:
+  - amount: 3213.88
+    price: 3.3
+    selection: 2126822
+  - amount: 500.46
+    price: 4.8
+    selection: 1315816
+  - amount: 598.25
+    price: 7.2
+    selection: 166950
+  - amount: 309.92
+    price: 10.5
+    selection: 58452
+  - amount: 35.11
+    price: 13.5
+    selection: 10571
+  - amount: 48.1
+    price: 12.5
+    selection: 555399
+  - amount: 128.76
+    price: 9.6
+    selection: 800155
+  - amount: 8.55
+    price: 70.0
+    selection: 144586
+20070714164521:
+  - amount: 1095.31
+    price: 3.45
+    selection: 2126822
+  - amount: 514.95
+    price: 4.7
+    selection: 1315816
+  - amount: 250.77
+    price: 6.8
+    selection: 166950
+  - amount: 192.05
+    price: 10.5
+    selection: 58452
+  - amount: 96.56
+    price: 13.5
+    selection: 10571
+  - amount: 87.83
+    price: 12.5
+    selection: 555399
+  - amount: 382.73
+    price: 9.6
+    selection: 800155
+  - amount: 89.69
+    price: 75.0
+    selection: 144586
+20070714164542:
+  - amount: 429.43
+    price: 3.4
+    selection: 2126822
+  - amount: 331.68
+    price: 5.3
+    selection: 1315816
+  - amount: 125.89
+    price: 5.5
+    selection: 166950
+  - amount: 2.83
+    price: 10.5
+    selection: 58452
+  - amount: 17.06
+    price: 13.0
+    selection: 10571
+  - amount: 15.49
+    price: 11.5
+    selection: 555399
+  - amount: 35.92
+    price: 9.0
+    selection: 800155
+  - amount: 3.26
+    price: 65.0
+    selection: 144586
+20070714164553:
+  - amount: 335.14
+    price: 3.45
+    selection: 2126822
+  - amount: 243.39
+    price: 5.1
+    selection: 1315816
+  - amount: 375.45
+    price: 6.0
+    selection: 166950
+  - amount: 12.2
+    price: 7.0
+    selection: 58452
+  - amount: 5.74
+    price: 13.5
+    selection: 10571
+  - amount: 3.84
+    price: 13.5
+    selection: 555399
+  - amount: 35.92
+    price: 9.0
+    selection: 800155
+  - amount: 3.5
+    price: 34.0
+    selection: 144586
+20070714164603:
+  - amount: 387.19
+    price: 3.15
+    selection: 2126822
+  - amount: 109.23
+    price: 4.9
+    selection: 1315816
+  - amount: 373.31
+    price: 6.4
+    selection: 166950
+  - amount: 18.33
+    price: 6.4
+    selection: 58452
+  - amount: 5.18
+    price: 30.0
+    selection: 10571
+  - amount: 10.0
+    price: 10.5
+    selection: 555399
+  - amount: 8.92
+    price: 9.0
+    selection: 800155
+  - amount: 5.0
+    price: 55.0
+    selection: 144586
+20070714164613:
+  - amount: 290.0
+    price: 3.25
+    selection: 2126822
+  - amount: 118.81
+    price: 5.0
+    selection: 1315816
+  - amount: 697.57
+    price: 7.6
+    selection: 166950
+  - amount: 96.63
+    price: 8.0
+    selection: 58452
+  - amount: 81.87
+    price: 18.5
+    selection: 10571
+  - amount: 2.71
+    price: 7.8
+    selection: 555399
+  - amount: 4.5
+    price: 9.6
+    selection: 800155
+  - amount: 82.1
+    price: 60.0
+    selection: 144586
+20070714164624:
+  - amount: 3362.78
+    price: 3.35
+    selection: 2126822
+  - amount: 15.66
+    price: 4.9
+    selection: 1315816
+  - amount: 5.49
+    price: 7.6
+    selection: 166950
+  - amount: 80.82
+    price: 5.2
+    selection: 58452
+  - amount: 69.09
+    price: 18.5
+    selection: 10571
+  - amount: 4.12
+    price: 8.0
+    selection: 555399
+  - amount: 48.0
+    price: 11.5
+    selection: 800155
+  - amount: 24.9
+    price: 60.0
+    selection: 144586
+20070714164634:
+  - amount: 10.77
+    price: 3.4
+    selection: 2126822
+  - amount: 84.92
+    price: 4.8
+    selection: 1315816
+  - amount: 35.77
+    price: 7.0
+    selection: 166950
+  - amount: 15.67
+    price: 6.4
+    selection: 58452
+  - amount: 7.72
+    price: 19.0
+    selection: 10571
+  - amount: 2.0
+    price: 8.4
+    selection: 555399
+  - amount: 40.85
+    price: 11.5
+    selection: 800155
+  - amount: 4.2
+    price: 75.0
+    selection: 144586
+20070714164645:
+  - amount: 5.0
+    price: 3.45
+    selection: 2126822
+  - amount: 78.24
+    price: 4.7
+    selection: 1315816
+  - amount: 106.77
+    price: 6.6
+    selection: 166950
+  - amount: 3.03
+    price: 6.6
+    selection: 58452
+  - amount: 5.12
+    price: 23.0
+    selection: 10571
+  - amount: 48.08
+    price: 9.0
+    selection: 555399
+  - amount: 74.72
+    price: 11.0
+    selection: 800155
+  - amount: 5.0
+    price: 50.0
+    selection: 144586
+20070714164655:
+  - amount: 9.92
+    price: 3.5
+    selection: 2126822
+  - amount: 52.06
+    price: 4.7
+    selection: 1315816
+  - amount: 7.91
+    price: 6.6
+    selection: 166950
+  - amount: 12.34
+    price: 6.6
+    selection: 58452
+  - amount: 36.21
+    price: 23.0
+    selection: 10571
+  - amount: 85.0
+    price: 11.0
+    selection: 555399
+  - amount: 71.72
+    price: 11.0
+    selection: 800155
+  - amount: 12.0
+    price: 75.0
+    selection: 144586
+20070714164706:
+  - amount: 44.82
+    price: 3.6
+    selection: 2126822
+  - amount: 20.0
+    price: 3.95
+    selection: 1315816
+  - amount: 3.02
+    price: 6.8
+    selection: 166950
+  - amount: 8.72
+    price: 9.8
+    selection: 58452
+  - amount: 2.67
+    price: 23.0
+    selection: 10571
+  - amount: 15.16
+    price: 13.5
+    selection: 555399
+  - amount: 12.65
+    price: 11.5
+    selection: 800155
+  - amount: 35.02
+    price: 75.0
+    selection: 144586
+20070714164716:
+  - amount: 921.73
+    price: 3.5
+    selection: 2126822
+  - amount: 94.66
+    price: 3.3
+    selection: 1315816
+  - amount: 95.0
+    price: 6.6
+    selection: 166950
+  - amount: 3.25
+    price: 7.4
+    selection: 58452
+  - amount: 12.48
+    price: 28.0
+    selection: 10571
+  - amount: 5.0
+    price: 18.0
+    selection: 555399
+  - amount: 48.88
+    price: 11.0
+    selection: 800155
+  - amount: 12.09
+    price: 100.0
+    selection: 144586
+20070714164727:
+  - amount: 240.84
+    price: 3.5
+    selection: 2126822
+  - amount: 12.5
+    price: 4.6
+    selection: 1315816
+  - amount: 84.04
+    price: 6.2
+    selection: 166950
+  - amount: 33.4
+    price: 10.0
+    selection: 58452
+  - amount: 2.84
+    price: 19.0
+    selection: 10571
+  - amount: 140.0
+    price: 34.0
+    selection: 555399
+  - amount: 16.95
+    price: 11.0
+    selection: 800155
+  - amount: 269.21
+    price: 85.0
+    selection: 144586
+20070714164738:
+  - amount: 52.1
+    price: 3.5
+    selection: 2126822
+  - amount: 3012.96
+    price: 3.8
+    selection: 1315816
+  - amount: 455.4
+    price: 7.0
+    selection: 166950
+  - amount: 29.04
+    price: 16.0
+    selection: 58452
+  - amount: 2.02
+    price: 15.5
+    selection: 10571
+  - amount: 54.0
+    price: 55.0
+    selection: 555399
+  - amount: 6.68
+    price: 9.6
+    selection: 800155
+  - amount: 34.81
+    price: 1000.0
+    selection: 144586
+20070714164748:
+  - amount: 25.0
+    price: 6.6
+    selection: 2126822
+  - amount: 15.94
+    price: 2.82
+    selection: 1315816
+  - amount: 58.19
+    price: 15.0
+    selection: 166950
+  - amount: 22.0
+    price: 32.0
+    selection: 58452
+  - amount: 4.4
+    price: 11.0
+    selection: 10571
+  - amount: 11.0
+    price: 90.0
+    selection: 555399
+  - amount: 8.26
+    price: 4.0
+    selection: 800155
+  - amount: 311.81
+    price: 1000.0
+    selection: 144586
+20070714164759:
+  - amount: 46.83
+    price: 50.0
+    selection: 2126822
+  - amount: 47.86
+    price: 2.12
+    selection: 1315816
+  - amount: 129.53
+    price: 10.0
+    selection: 166950
+  - amount: 3.0
+    price: 13.5
+    selection: 58452
+  - amount: 100.4
+    price: 8.0
+    selection: 10571
+  - amount: 11.0
+    price: 110.0
+    selection: 555399
+  - amount: 13.77
+    price: 5.0
+    selection: 800155
+  - amount: 305.81
+    price: 1000.0
+    selection: 144586
+20070714164809:
+  - amount: 80.66
+    price: 12.0
+    selection: 2126822
+  - amount: 40.0
+    price: 1.82
+    selection: 1315816
+  - amount: 64.0
+    price: 26.0
+    selection: 166950
+  - amount: 9.31
+    price: 20.0
+    selection: 58452
+  - amount: 46.17
+    price: 8.0
+    selection: 10571
+  - amount: 10.0
+    price: 95.0
+    selection: 555399
+  - amount: 202.93
+    price: 3.9
+    selection: 800155
+  - amount: 303.81
+    price: 1000.0
+    selection: 144586
+20070714164819:
+  - amount: 125.95
+    price: 12.0
+    selection: 2126822
+  - amount: 19.32
+    price: 1.5
+    selection: 1315816
+  - amount: 2.08
+    price: 48.0
+    selection: 166950
+  - amount: 3.32
+    price: 23.0
+    selection: 58452
+  - amount: 2.08
+    price: 48.0
+    selection: 10571
+  - amount: 10.0
+    price: 95.0
+    selection: 555399
+  - amount: 10.0
+    price: 9.0
+    selection: 800155
+  - amount: 301.81
+    price: 1000.0
+    selection: 144586
+20070714164830:
+  - amount: 18.87
+    price: 20.0
+    selection: 2126822
+  - amount: 62.61
+    price: 2.0
+    selection: 1315816
+  - amount: 4.92
+    price: 9.2
+    selection: 166950
+  - amount: 2.0
+    price: 20.0
+    selection: 58452
+  - amount: 259.99
+    price: 7.0
+    selection: 10571
+  - amount: 8.0
+    price: 95.0
+    selection: 555399
+  - amount: 2.04
+    price: 3.9
+    selection: 800155
+  - amount: 299.81
+    price: 1000.0
+    selection: 144586
+20070714164840:
+  - amount: 210.61
+    price: 14.0
+    selection: 2126822
+  - amount: 899.0
+    price: 12.0
+    selection: 1315816
+  - amount: 11.0
+    price: 11.0
+    selection: 166950
+  - amount: 160.0
+    price: 1000.0
+    selection: 58452
+  - amount: 571.4
+    price: 1.4
+    selection: 10571
+  - amount: 168.0
+    price: 1000.0
+    selection: 555399
+  - amount: 2.71
+    price: 4.0
+    selection: 800155
+  - amount: 299.81
+    price: 1000.0
+    selection: 144586
+20070714164851:
+  - amount: 8.0
+    price: 110.0
+    selection: 2126822
+  - amount: 861.69
+    price: 2.0
+    selection: 1315816
+  - amount: 70.69
+    price: 4.0
+    selection: 166950
+  - amount: 4.0
+    price: 1000.0
+    selection: 58452
+  - amount: 185.54
+    price: 1.49
+    selection: 10571
+  - amount: 21.0
+    price: 1000.0
+    selection: 555399
+  - amount: 33.88
+    price: 8.8
+    selection: 800155
+  - amount: 150.81
+    price: 1000.0
+    selection: 144586
+20070714164901:
+  - amount: 278.51
+    price: 1000.0
+    selection: 2126822
+  - amount: 626.1
+    price: 1.01
+    selection: 1315816
+  - amount: 2.0
+    price: 42.0
+    selection: 166950
+  - amount: 4.0
+    price: 1000.0
+    selection: 58452
+  - amount: 6.0
+    price: 50.0
+    selection: 10571
+  - amount: 21.0
+    price: 1000.0
+    selection: 555399
+  - amount: 146.1
+    price: 1000.0
+    selection: 800155
+  - amount: 150.81
+    price: 1000.0
+    selection: 144586
+20070714164912:
+  - amount: 270.51
+    price: 1000.0
+    selection: 2126822
+  - amount: ''
+    price: ''
+    selection: 1315816
+  - amount: 13.0
+    price: 1000.0
+    selection: 166950
+  - amount: 4.0
+    price: 1000.0
+    selection: 58452
+  - amount: 145.0
+    price: 1000.0
+    selection: 10571
+  - amount: 16.0
+    price: 1000.0
+    selection: 555399
+  - amount: 151.1
+    price: 1000.0
+    selection: 800155
+  - amount: 150.81
+    price: 1000.0
+    selection: 144586
