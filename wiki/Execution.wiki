@@ -36,4 +36,4 @@ See the [http://betfairfree.googlecode.com/svn/trunk/docs/sample-logs/ sample lo
  ./perl -I./lib _t/yml_grapher.pl -d foo.txt -h 300 -w 500 -c 100
 }}}
 
-http://betfairfree.googlecode.com/svn/trunk/docs/sample-graphs/20486955.gif
+See the [http://betfairfree.googlecode.com/svn/trunk/docs/sample-graphs/ sample graphs] for a look at the output of this program.
