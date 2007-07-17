@@ -1,4 +1,5 @@
 #summary Example application code using betfairfree
+#labels exampleocde
 
 =Example Code=
 
@@ -53,4 +54,3 @@ $returnedXML = $b->{response};
 
 [code]
 }}}
-
