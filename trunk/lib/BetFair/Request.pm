@@ -33,6 +33,7 @@ my $PACKAGE = 'BetFair::Request';
 my $VERSION = '';
 
 my $conf = new BetFair::Config;
+my $logfile = $conf->{log} ? $conf->{log} . 'request.log' : '';
 
 # All calls whose type is below have to go to the global api, everything else 
 # should go to the exchange server. See Betfair API docs.
@@ -44,7 +45,7 @@ sub new
         my $objref = {
 		response => '',
 		message => '',
-		logfile => $conf->{log} . '/request.log',
+		logfile => $logfile,
 		type => '',
 	        throttle => new BetFair::Throttle
                 };
