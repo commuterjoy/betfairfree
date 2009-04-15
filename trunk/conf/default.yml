@@ -1,5 +1,5 @@
 # turn on tracing output
-debug : 1
+debug : 0
 
 # useful xpaths
 xpath_conf : conf/xpath.yml
@@ -9,7 +9,7 @@ event_id_cache : conf/eventId-cache.yml
 
 # end points for SOAP requests
 soap_global_uri : https://api.betfair.com/global/v3/BFGlobalService
-soap_exchange_uri : https://api.betfair.com/exchange/v3/BFExchangeService
+soap_exchange_uri : https://api.betfair.com/exchange/v5/BFExchangeService
 
 # soap request templates (HTML::Template)
 soap_response_templates : tmpl/soap-responses/
@@ -24,7 +24,7 @@ error :
 THROTTLE_EXCEEDED : "slow down"
 
 # directory to write log files to. leave blank if you do not want various processes to write logs, blank to turn off
-log : log/
+log : 
 
 # each time a request is made we can cache the session key returned. this allows multiple applications
 # to bypass the login and use the same session
