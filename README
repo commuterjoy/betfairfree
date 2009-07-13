@@ -55,10 +55,6 @@ an application which maintains the session and is easy to process. You setup
 your betfair object at the start of the script and then you can make multiple 
 submit_request calls and parse the response each time.
 
-XML returned by Betfair
-=======================
-
-
 Example Code
 ============
 
