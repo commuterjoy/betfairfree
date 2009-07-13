@@ -16,16 +16,17 @@ M Chadburn - July 2006
 
 package BetFair;
 
+use Data::Dumper;
+
 use BetFair::Parser;
 use BetFair::Request;
 use BetFair::Session;
 use BetFair::Template;
 use BetFair::Throttle;
-use Data::Dumper;
 use BetFair::Trace qw( TRACE );
 
 my $PACKAGE = 'BetFair';
-my $VERSION = '';
+my $VERSION = '0.99';
 
 my $DEBUG = 0;
 
@@ -36,9 +37,15 @@ sub new
 		'_options' => $params,
 		'loggedIn' => 0,
 		'response' => '',
-		'error' => '',
+		'error' => ''
 		};
-	
+
+	if ($objref->{_options}->{xmlsimple}) {
+		use XML::Simple;
+		$objref->{xmlsimple} = XML::Simple->new( NoAttr => 1 );
+		delete $objref->{_options}->{xmlsimple};
+	}	
+
 	bless $objref, $class;
 	return $objref;
 }
@@ -74,6 +81,14 @@ sub submit_request
  $self->{response} = $r->{response};
  
  $self->{error} = ($x->get_responseError eq 'OK') ? '' : $x->get_responseError;
+
+ if ($self->{xmlsimple}) {
+	my $xml = $self->{response};
+	$xml =~ s/<n\d?:/</g;
+	$xml =~ s/<\/n\d?:/<\//g;
+	$self->{_data} = $self->{xmlsimple}->XMLin($xml);
+}
+
  return ($self->{error}) ? '0' : '1';
 }
 
@@ -138,27 +153,27 @@ sub getActiveEventTypes
     }
  }
 
+sub getEvents {
+	my ( $self, $eventId ) = @_;
+	return 0 if $eventId !~ /[0-9]+/;
+
+	$self->submit_request('getEvents',{ eventParentId => $eventId } );
+ 
+	if ($self->{xmlsimple}) {
+		$self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getEventsResponse}->{Result}->{marketItems}->{MarketSummary};
+	} else {
+		$self->getEventsOld;
+	}
+}
 
 # TODO - this is more than just a factory method, consider moving to BetFair::Parser::getEvents ?
-sub getEvents
+sub getEventsOld
  {
- my ( $self, $eventId ) = @_;
+ my ( $self ) = shift;
 
- return 0 if $eventId !~ /[0-9]+/;
+ my $x = new BetFair::Parser( { 'message' => $self->{response} } );
 
- my $t = new BetFair::Template;
- my $params2 = {
-   session => $self->{sessionToken},
-   eventParentId => $eventId,
-   };
- my $message = $t->populate( 'getEvents', $params2 );
- my $r = new BetFair::Request;
- $r->message( $message, 'getEvents' );
- $r->request();
- 
- my $x = new BetFair::Parser( { 'message' => $r->{response} } );
-
- my $xx = XML::XPath->new( xml => $r->{response} );
+ my $xx = XML::XPath->new( xml => $self->{response} );
 
  if ( $xx->exists( $x->{xpath}->{getEvents}->{eventItems} ) )
   {
@@ -194,7 +209,7 @@ sub getEvents
 
   }
 
- }
+}
 
 sub getMarket
 {

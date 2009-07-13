@@ -4,9 +4,9 @@ Introduction
 
 Get hold of the Betfair API document, it's full of useful info
 
-http://bdp.betfair.com/exchdevelopers.php
+http://bdp.betfair.com/
 
-This code current supports version 5 of the Betfair API
+This code currently supports version 5 of the Betfair API
 
 /lib contains the Betfair modules and xpath modules.
 
@@ -20,8 +20,9 @@ See BetFair::Template for a list of what templates are available and therefore
 what commands are currently supported by betfairfree. If you write support for 
 additional commands feel free to submit them back.
 
-/_t contains various perl scripts that can be used for workng out what does 
-what, 
+/_t contains various perl scripts that have been written to perform various 
+functions and can be called on their own, like getAccountFunds.pl to return 
+your balance.
 
 /docs contains the example responses from Betfair.
 
@@ -34,11 +35,10 @@ directory so it picks up the Betfair perl modules.
 
  perl -I./lib _t/getAccountFunds.pl -u username -p password
 
-This will return a whole load of debugging output with your balance at the end. 
-We leave debug on so that you can see what's happening, to turn it off see
-default.yml
+If this doesn't work or returns an error then you should turn on the debug mode 
+which you'll find at the top of conf/default.yml and re-run the script
 
-log a market's best prices, every 10 seconds
+This script log a market's best prices, every 10 seconds
 
  perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m
  marketid
@@ -46,7 +46,7 @@ log a market's best prices, every 10 seconds
 There are several other one off scripts used to test various parts of the 
 templates and to provide useful info. 
 
-For example  getMarket.pl which returns market info when given login details 
+For example t_getMarket.pl which returns market info when given login details 
 and a market id. you can then search that for a selection and combine that with 
 getMarketPrices to track the prices for an individual selection.
 
@@ -54,6 +54,10 @@ An example is provided below on how to combine several template calls into an
 an application which maintains the session and is easy to process. You setup 
 your betfair object at the start of the script and then you can make multiple 
 submit_request calls and parse the response each time.
+
+XML returned by Betfair
+=======================
+
 
 Example Code
 ============
@@ -66,12 +70,21 @@ my $b = new BetFair({	username => 'foo',
 
 # pull out the details for the market we want - (submit_request returns 0 if it 
 # got an error)
-unless ($b->submit_request( 'getMarket', { marketId => $marketid } )) {
-	die $b->{error} if $b->{error};
-}
+$b->submit_request( 'getMarket', { marketId => $marketid } );
+
+# Several of the request types also have direct functions which parse the returned
+# XML and some present the data is slightly more useful format.
+# The above could also be done by calling
+$b->getMarket($marketid);
+
+# See XML types below for more info
+
+die $b->{error} if $b->{error};
+my $returnedXML = $b->{response};
+
 
 # now parse the returned XML to get the selection id of the contender
-# we want to bet on my $returnedXML = $b->{response};
+# we want to bet on 
 [code]
 
 # so now we want prices on our selection 
@@ -93,6 +106,18 @@ $selectionid, price => $betprice, size => $stake ,  bettype => 'B' } );
 $returnedXML = $b->{response};
 [code]
 
+XML Types
+=========
+
+The bulk of the code is written for XML::XPath but XML::Simple is also supported.
+If you pass set up the betfair object as 
+
+my $b = new BetFair({	username => 'foo',  password => 'bar', productId => 82,  xmlsimple=>1 } );
+
+Then perform your queries using submitRequest and you will have an XML::Simple
+object available at $b->{_data}. 
+
+If you don't pass this in then you will get an XML::XPath object at $b->{_data}
 
 Supported API actions
 ================
@@ -109,7 +134,8 @@ Throttling
 ==========
 
 The free betfair API is throttled by Betfair, there is a throttling engine 
-within this API which reports if you run in debug mode
+within this API which reports if you run in debug mode. The numbers below are 
+number of times per minute this function can be called.
 
 # notes for throttle levels
 
