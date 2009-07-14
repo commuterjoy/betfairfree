@@ -5,8 +5,15 @@ BetFair
 
 =head1 SYNOPSIS
 
-Mostly factory methods for other parts of the system. See the README for
-examples and useful code bits
+This contains the core login and submit_request methods and then a wrapper 
+calling method for each template type that the library supports. This means 
+you can call getMarket($marketid) and the library will login, make the 
+request and return you an XPath or XML::Simple object depending on your choice.
+
+Each template wrapper method will make a call to the XPath variant to parse the
+data if XML::Simple is not used.
+
+See the README for examples and useful code bits.
 
 =head1 AUTHOR
 
@@ -90,10 +97,10 @@ sub submit_request
 
     # Did we catch an error in the request code ?
     if ($self->{request}->{error}) {
-	    $self->{error} = $self->{request}->{error};
+        $self->{error} = $self->{request}->{error};
     } else {
         my $x = new BetFair::Parser( { 'message' => $self->{response} } );
-	
+    
         if ($self->{sessionToken} ne $x->get_sessionToken()) {
             $self->{sessionToken} = $x->get_sessionToken();
             BetFair::Session::write_cached_session( $self->{sessionToken} );
@@ -111,241 +118,212 @@ sub submit_request
     return ($self->{error}) ? '0' : '1';
 }
 
-
 sub getAccountFunds
- {
- my ( $self ) = @_;
+    {
+    my ( $self ) = @_;
 
- TRACE("* $PACKAGE->getAccountFunds : obtaining your account funds", 1);
+    TRACE("* $PACKAGE->getAccountFunds : obtaining your account funds", 1);
 
- if ($self->submit_request('getAccountFunds')) {
-	 my $p = new BetFair::Parser( { 'message' => $self->{response} }  ); 
-	 my $balancenode = $p->get_nodeSet( { 'xpath' => '/soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/availBalance' } );
-	 return $balancenode->string_value();
- } else {
-	 return 0;
- }
+    if ($self->submit_request('getAccountFunds')) {
+        my $p = new BetFair::Parser( { 'message' => $self->{response} }  ); 
+        my $balancenode = $p->get_nodeSet( { 'xpath' => '/soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/availBalance' } );
+        return $balancenode->string_value();
+    } else {
+        return 0;
+    }
 }
 
-sub getSubscriptionInfo
- {
- my ( $self ) = @_;
- my $t = new BetFair::Template;
- my $params2 = {
-               session => $self->{sessionToken}
-             };
- my $message = $t->populate( 'getSubscriptionInfo', $params2 );
- my $r = new BetFair::Request;
- $r->message( $message, 'getSubscriptionInfo' );
- $r->request();
- print "*** $r->{response} *** \n"
- }
+sub getSubscriptionInfo {
+    my ( $self ) = @_;
+    $self->submit_request('getSubscriptionInfo');
+}
 
-sub getActiveEventTypes
- {
- my ( $self ) = @_;
- my $t = new BetFair::Template;
- my $params2 = {
-               session => $self->{sessionToken}
-             };
- my $message = $t->populate( 'getActiveEventTypes', $params2 );
- my $r = new BetFair::Request;
- $r->message( $message, 'getActiveEventTypes' );
- $r->request();
- #print "*** $r->{response} *** \n"
+=item getActiveEventTypes
 
- my $x = new BetFair::Parser( { 'message' => $r->{response} } );
- #my $session = $x->get_sessionToken();
- my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getActiveEventTypes}->{eventTypeItems} } );
- print Dumper $n if $DEBUG;
- 
- foreach my $node ($n->get_nodelist) 
- {
-  my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
-  my $e = $xp->getNodeText( '//name' );
-  my $i = $xp->getNodeText( '//id' );
-  $self->{'_data'}->{'getActiveEventTypes'}->{$i} = "".$e;
+This returns the currently active event types
 
-    print "FOUND\n\n", 
-     XML::XPath::XMLParser::as_string($node),
-     "\n\n" if $DEBUG;
-     print $e . $i . $/.$/ if $DEBUG;
+=cut
+
+sub getActiveEventTypes {
+    my ( $self ) = @_;
+    return 0 unless ($self->submit_request('getActiveEventTypes'));
+    if ($self->{xmlsimple}) {
+        $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getActiveEventTypesResponse}->{Result}->{eventTypeItems};
+    } else {
+        $self->getActiveEventTypesXPath;
     }
- }
+}
+
+=item getActiveEventTypesXPath
+
+This processes the xml returned by getActiveEventTypes and parses it to return
+XML::XPath object.
+
+=cut
+
+sub getActiveEventTypesXPath {
+    my ( $self ) = @_;
+
+    my $x = new BetFair::Parser( { 'message' => $self->{response} } );
+
+    my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getActiveEventTypes}->{eventTypeItems} } );
+    print Dumper $n if $DEBUG;
+    
+    foreach my $node ($n->get_nodelist) {
+        my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
+        my $e = $xp->getNodeText( '//name' );
+        my $i = $xp->getNodeText( '//id' );
+        $self->{'_data'}->{'getActiveEventTypes'}->{$i} = "".$e;
+
+        print "FOUND\n\n", 
+            XML::XPath::XMLParser::as_string($node),
+            "\n\n" if $DEBUG;
+        print $e . $i . $/.$/ if $DEBUG;
+    }
+}
 
 sub getEvents {
-	my ( $self, $eventId ) = @_;
-	return 0 if $eventId !~ /[0-9]+/;
+    my ( $self, $eventId ) = @_;
+    return 0 if $eventId !~ /[0-9]+/;
 
-	$self->submit_request('getEvents',{ eventParentId => $eventId } );
- 
-	if ($self->{xmlsimple}) {
-		$self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getEventsResponse}->{Result}->{marketItems}->{MarketSummary};
-	} else {
-		$self->getEventsOld;
-	}
+    TRACE("* $PACKAGE->getEvents submitting request ",1);
+
+    return 0 unless ($self->submit_request('getEvents',{ eventParentId => $eventId } ));
+    
+    TRACE("* $PACKAGE->getEvents parsing returned request",1);
+
+    if ($self->{xmlsimple}) {
+        $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getEventsResponse}->{Result}->{marketItems}->{MarketSummary};
+    } else {
+        $self->getEventsXPath;
+    }
 }
 
-# TODO - this is more than just a factory method, consider moving to BetFair::Parser::getEvents ?
-sub getEventsOld
- {
- my ( $self ) = shift;
+sub getEventsXPath {
+    my ( $self ) = shift;
 
- my $x = new BetFair::Parser( { 'message' => $self->{response} } );
+    my $x = new BetFair::Parser( { 'message' => $self->{response} } );
 
- my $xx = XML::XPath->new( xml => $self->{response} );
+    my $xx = XML::XPath->new( xml => $self->{response} );
 
- if ( $xx->exists( $x->{xpath}->{getEvents}->{eventItems} ) )
-  {
-  print "Events \n";
-  my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getEvents}->{BFEvent} } );
+    if ( $xx->exists( $x->{xpath}->{getEvents}->{marketItems} ))
+    {
+        TRACE("* $PACKAGE->getEventsXPath : obtaining events markets for '$marketId'", 1);
 
-  #  clean, so we don't end up collating data multiple event calls
-  $self->{'_data'}->{'getEvents'}->{'events'}->{$eventId} = {};
+        my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getEvents}->{marketSummary} } );
+        $self->{'_data'}->{'getEvents'}->{'markets'}->{$eventId} = {};
 
-  foreach my $node ($n->get_nodelist)
-  {
-   my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
-   my $e = $xp->getNodeText( '//eventName' );
-   my $i = $xp->getNodeText( '//eventId' );
-   $self->{'_data'}->{'getEvents'}->{'events'}->{$eventId}->{$i} = "".$e;
-   }
-  }
-
- if ( $xx->exists( $x->{xpath}->{getEvents}->{marketItems} ))
-  {
-  print "Markets \n";
-
-  my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getEvents}->{marketSummary} } );
-  $self->{'_data'}->{'getEvents'}->{'markets'}->{$eventId} = {};
-
-  foreach my $node ($n->get_nodelist)
-  {
-   my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
-   my $e = $xp->getNodeText( '//marketName' );
-   my $i = $xp->getNodeText( '//marketId' );
-   $self->{'_data'}->{'getEvents'}->{'markets'}->{$eventId}->{$i} = "".$e;
-  }
-
-  }
-
+        foreach my $node ($n->get_nodelist)
+        {
+            my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
+            my $e = $xp->getNodeText( '//marketName' );
+            my $i = $xp->getNodeText( '//marketId' );
+            $self->{'_data'}->{'getEvents'}->{'markets'}->{$eventId}->{$i} = "".$e;
+        }
+    }
 }
 
-sub getMarket
-{
- my ($self, $marketId ) = @_;
+sub getMarket {
+    my ($self, $marketId ) = @_;
 
- TRACE("* $PACKAGE->getMarket : obtaining market data for '$marketId'", 1);
-
- my $t = new BetFair::Template;
- my $params = {
- 		session => $self->{sessionToken},
-                marketId => $marketId,
-             };
- my $message = $t->populate( 'getMarket' , $params );
-
- my $r = new BetFair::Request;
- $r->message( $message, 'getMarket' );
- $r->request();
-
- print "getMarket response" . $r->{response};
-
- #clean data structure
- TRACE("$PACKAGE->getMarket : cleaning data structure \$self->{'_data'}->{'getMarket'}->{$marketId}", 1);
- $self->{'_data'}->{'getMarket'}->{$marketId} = {};
-
- # get general market details
- my $x = new BetFair::Parser( { 'message' => $r->{response} } );
-
- while ( my ($key, $value) = each( %{$x->{xpath}->{getMarket}} ) )
- {
-   my $result = $x->get_nodeSet( { xpath => $value } )->string_value();
-   TRACE("$PACKAGE->getMarket : Found '$result', assigning to '$key'", 1);
-   $self->{'_data'}->{'getMarket'}->{$marketId}->{$key} = $result;
- }
-
- # get details of runners
- my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getMarketRunners}->{runners} } );
+    TRACE("* $PACKAGE->getMarket : obtaining market data for '$marketId'", 1);
+    return 0 unless ($self->submit_request('getMarket',{ marketId => $marketId } ));
  
- # temp array to store selection's 
- my @data;
-
- # for each selection in the market extract current price, money available, and selection id
- foreach my $node ($n->get_nodelist)
- {
-   # temp hash
-   my %g;
-   
-   # xpaths to extract text nodes
-   my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
-   my $n = $xp->getNodeText( '//name' );
-   my $s = $xp->getNodeText( '//selectionId' );
-   
-   $g{name} = "".$n;
-   $g{selection} = "".$s;
-   
-   # add the temporary hash to the selection array, and add to $self
-   push(@data, \%g); 
-   $self->{'_data'}->{'getMarket'}->{$marketId}->{runners} = \@data;
- }
-
-
+    if ($self->{xmlsimple}) {
+        $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getMarketResponse}->{Result}->{Market}->{runners};
+    } else {
+        $self->getMarketXPath($marketId);
+    }
 }
 
-# for a given market, extract the price, amount available, id for each selection.
-sub getBestPricesToBack
-{
- my ($self, $marketId ) = @_;
+sub getMarketXPath {
+    my ($self, $marketId ) = @_;
+    
+    #clean data structure
+    TRACE("$PACKAGE->getMarket : cleaning data structure \$self->{'_data'}->{'getMarket'}->{$marketId}", 1);
+    $self->{'_data'}->{'getMarket'}->{$marketId} = {};
 
- TRACE("$PACKAGE->getBestPricesToBack : obtaining market price data for '$marketId'", 1);
+    # get general market details
+    my $x = new BetFair::Parser( { 'message' => $self->{response} } );
 
- my $t = new BetFair::Template;
- my $params = {
-         session => $self->{sessionToken},
-         marketId => $marketId,
-         };
- my $message = $t->populate( 'getMarketPrices' , $params );
+    while ( my ($key, $value) = each( %{$x->{xpath}->{getMarket}} ) )
+    {
+      my $result = $x->get_nodeSet( { xpath => $value } )->string_value();
+      TRACE("$PACKAGE->getMarket : Found '$result', assigning to '$key'", 1);
+      $self->{'_data'}->{'getMarket'}->{$marketId}->{$key} = $result;
+    }
 
- my $r = new BetFair::Request;
- $r->message( $message, 'getMarketPrices' );
- $r->request();
- 
- print "getMarket response" . $r->{response} if $DEBUG;
- print Dumper $r if $DEBUG;
+    # get details of runners
+    my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getMarketRunners}->{runners} } );
+    
+    # temp array to store selection's 
+    my @data;
 
- #clean 
- $self->{'_data'}->{'getMarketPrices'}->{$marketId}->{'getBestPricesToBack'} = {};
+    # for each selection in the market extract current price, money available, and selection id
+    foreach my $node ($n->get_nodelist)
+    {
+      # temp hash
+      my %g;
+      
+      # xpaths to extract text nodes
+      my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
+      my $n = $xp->getNodeText( '//name' );
+      my $s = $xp->getNodeText( '//selectionId' );
+      
+      $g{name} = "".$n;
+      $g{selection} = "".$s;
+      
+      # add the temporary hash to the selection array, and add to $self
+      push(@data, \%g); 
+      $self->{'_data'}->{'getMarket'}->{$marketId}->{runners} = \@data;
+    }
+}
 
- my $x = new BetFair::Parser( { 'message' => $r->{response} } ); 
 
- my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getBestPricesToBack}->{runnerPrices} } );
- 
- # temp array to store selection's 
- my @data;
+sub getAccountStatement {
 
- # for each selection in the market extract current price, money available, and selection id
- foreach my $node ($n->get_nodelist)
- {
-   # temp hash
-   my %g;
-   
-   # xpaths to extract text nodes
-   my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
-   my $p = $xp->getNodeText( '//bestPricesToBack/*[1]/price' );
-   my $a = $xp->getNodeText( '//bestPricesToBack/*[1]/amountAvailable' );
-   my $s = $xp->getNodeText( '//selectionId' );
-   
-   $g{price} = "".$p;
-   $g{amount} = "".$a;
-   $g{selection} = "".$s;
-   
-   # add the temporary hash to the selection array, and add to $self
-   push(@data, \%g); 
-   $self->{'_data'}->{'getMarketPrices'}->{$marketId}->{getBestPricesToBack} = \@data;
- }
+    my ($self, $startRecord, $recordCount, $startDate, $endDate, $itemsIncluded ) = @_;
+
+    TRACE("* $PACKAGE->getAccountStatement : ", 1);
+    return 0 unless ($self->submit_request('getAccountStatement',{
+        startRecord => $startRecord,
+        recordCount => $recordCount,
+        startDate => $startDate,
+        endDate => $endDate,
+        itemsIncluded => 'ALL'
+    } ));
+
+    if ($self->{xmlsimple}) {#
+#        die Dumper $self->{'_data'};
+        $self->{'_data'} = $self->{'_data'}->{'soap:Body'};#->{getMarketResponse}->{Result}->{Market}->{runners};
+    } else {
+        $self->getMarketXPath($marketId);
+    }
 
 }
 
+sub getAccountStatementXPath {
+    my ($self) = @_;
+
+    my $x = new BetFair::Parser( { 'message' => $self->{response} } );
+    
+    my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getAccountStatement}->{items} } );
+
+    # clean
+    $self->{'_data'}->{'getAccountStatement'} = {};
+    my (@balance, @settled);
+
+    foreach my $node ($n->get_nodelist)
+    {
+        my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
+        my $p = $xp->getNodeText( '//accountBalance' );
+        my $s = $xp->getNodeText( '//settledDate' );
+        push( @balance, "".$p );
+        push( @settled, "".$s );
+    }
+    $self->{'_data'}->{'getAccountStatement'}->{accountBalance} = \@balance;
+    $self->{'_data'}->{'getAccountStatement'}->{settledDate} = \@settled;
+}
 
 sub getMarketPrices {
     my ($self, $marketId ) = @_;
@@ -360,7 +338,6 @@ sub getMarketPrices {
     }
 }
 
-
 sub getMarketPricesCompressed {
     my ($self, $marketId ) = @_;
 
@@ -374,49 +351,47 @@ sub getMarketPricesCompressed {
     }
 }
 
-sub getAccountStatement
-{
+# for a given market, extract the price, amount available, id for each selection.
+sub getBestPricesToBack {
+    my ($self, $marketId ) = @_;
 
- TRACE("* $PACKAGE->getAccountStatement : ", 1);
+    TRACE("$PACKAGE->getBestPricesToBack : obtaining market price data for '$marketId'", 1);
 
- my ($self, $startRecord, $recordCount, $startDate, $endDate, $itemsIncluded ) = @_;
- my $t = new BetFair::Template;
- my $params = {
-         session => $self->{sessionToken},
-         startRecord => $startRecord,
-	 recordCount => $recordCount,
-	 startDate => $startDate,
-	 endDate => $endDate,
-	 itemsIncluded => 'ALL'
-         };
- my $message = $t->populate( 'getAccountStatement' , $params );
+    $self->submit_request('getMarket',{ marketId => $marketId } );
 
-# print $message;
+    print "getMarket response" . $self->{response} if $DEBUG;
+    print Dumper $self if $DEBUG;
 
- my $r = new BetFair::Request;
- $r->message( $message, 'getAccountStatement' );
- $r->request();
- 
- print $r->{response};
+    #clean 
+    $self->{'_data'}->{'getMarketPrices'}->{$marketId}->{'getBestPricesToBack'} = {};
 
- my $x = new BetFair::Parser( { 'message' => $r->{response} } );
- 
- my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getAccountStatement}->{items} } );
+    my $x = new BetFair::Parser( { 'message' => $self->{response} } ); 
 
- # clean
- $self->{'_data'}->{'getAccountStatement'} = {};
- my (@balance, @settled);
+    my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getBestPricesToBack}->{runnerPrices} } );
+    
+    # temp array to store selection's 
+    my @data;
 
- foreach my $node ($n->get_nodelist)
- {
-   my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
-   my $p = $xp->getNodeText( '//accountBalance' );
-   my $s = $xp->getNodeText( '//settledDate' );
-   push( @balance, "".$p );
-   push( @settled, "".$s );
- }
-   $self->{'_data'}->{'getAccountStatement'}->{accountBalance} = \@balance;
-   $self->{'_data'}->{'getAccountStatement'}->{settledDate} = \@settled;
+    # for each selection in the market extract current price, money available, and selection id
+    foreach my $node ($n->get_nodelist)
+    {
+      # temp hash
+      my %g;
+      
+      # xpaths to extract text nodes
+      my $xp = XML::XPath->new( xml => XML::XPath::XMLParser::as_string($node) );
+      my $p = $xp->getNodeText( '//bestPricesToBack/*[1]/price' );
+      my $a = $xp->getNodeText( '//bestPricesToBack/*[1]/amountAvailable' );
+      my $s = $xp->getNodeText( '//selectionId' );
+      
+      $g{price} = "".$p;
+      $g{amount} = "".$a;
+      $g{selection} = "".$s;
+      
+      # add the temporary hash to the selection array, and add to $self
+      push(@data, \%g); 
+      $self->{'_data'}->{'getMarketPrices'}->{$marketId}->{getBestPricesToBack} = \@data;
+    }
 }
 
 1;

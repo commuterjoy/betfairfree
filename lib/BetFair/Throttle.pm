@@ -115,7 +115,6 @@ sub ok_to_call
 	}
 
 	# otherwise ok  
-    print "$PACKAGE->ok_to_call : Throttle limit ok on '$method' (".$self->{$method}->{count}." / ".$self->{$method}->{limit} .")";
 	TRACE("$PACKAGE->ok_to_call : Throttle limit ok on '$method' (".$self->{$method}->{count}." / ".$self->{$method}->{limit} .")", 1);
 	return 1;
 }
