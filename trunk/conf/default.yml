@@ -1,5 +1,5 @@
 # turn on tracing output
-debug : 1
+debug : 0
 
 # useful xpaths
 xpath_conf : conf/xpath.yml

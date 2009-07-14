@@ -27,7 +27,7 @@ use BetFair::Trace qw( TRACE );
 use XML::Simple;
 
 my $PACKAGE = 'BetFair';
-my $VERSION = '0.99';
+my $VERSION = '0.70';
 
 my $DEBUG = 0;
 
@@ -69,6 +69,7 @@ submitting the request and parsing the result, returning an XPath or XML::Simple
 object as _data
 
 This can either be called directly or can be called as part of a wrapper method
+like getAccountFunds() below.
 
 =cut
 
@@ -85,29 +86,31 @@ sub submit_request
 
     $self->{request}->message( $message, $type );
     $self->{request}->request();
-
     $self->{response} = $self->{request}->{response};
-    my $x = new BetFair::Parser( { 'message' => $self->{response} } );
 
-    if ($self->{sessionToken} ne $x->get_sessionToken()) {
-        $self->{sessionToken} = $x->get_sessionToken();
-        BetFair::Session::write_cached_session( $self->{sessionToken} );
-    }
+    # Did we catch an error in the request code ?
+    if ($self->{request}->{error}) {
+	    $self->{error} = $self->{request}->{error};
+    } else {
+        my $x = new BetFair::Parser( { 'message' => $self->{response} } );
+	
+        if ($self->{sessionToken} ne $x->get_sessionToken()) {
+            $self->{sessionToken} = $x->get_sessionToken();
+            BetFair::Session::write_cached_session( $self->{sessionToken} );
+        }
     
-    if ($self->{xmlsimple}) {
-        my $xml = $self->{response};
-        $xml =~ s/<n\d?:/</g;
-        $xml =~ s/<\/n\d?:/<\//g;
-        $self->{_data} = $self->{xmlsimple}->XMLin($xml);
-    }
+        if ($self->{xmlsimple}) {
+            my $xml = $self->{response};
+            $xml =~ s/<n\d?:/</g;
+            $xml =~ s/<\/n\d?:/<\//g;
+            $self->{_data} = $self->{xmlsimple}->XMLin($xml);
+        }
 
-    unless ( $self->{error} ) {
-        # Error might already be set by throttle or request, don't blow it away 
         $self->{error} = ($x->get_responseError eq 'OK') ? '' : $x->get_responseError;
     }
-
     return ($self->{error}) ? '0' : '1';
 }
+
 
 sub getAccountFunds
  {

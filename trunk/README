@@ -2,11 +2,12 @@
 Introduction 
 ===============
 
-Get hold of the Betfair API document, it's full of useful info
+Firstly go and look through the Betfair Developer Program website, it's full of
+useful stuff, including documentation on all the different API's and forums.
 
 http://bdp.betfair.com/
 
-This code currently supports version 5 of the Betfair API
+This code currently supports version 5 of the Betfair Exchange API
 
 /lib contains the Betfair modules and xpath modules.
 
