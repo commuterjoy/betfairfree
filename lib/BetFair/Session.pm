@@ -15,14 +15,16 @@ ie. you essentially need to login via your client application.
 So this package encapsulates this functionality and stores a key for any 
 subsequent requests to other API methods.
 
-=head1 TODO
+=head1 NOTES
 
-This is simplistic at the moment. Each session lasts for twenty minutes only.
-For every request you make, a new key is returned, so as long as you keep requests coming
-you will never be logged out. So I can imagine we need to attach, say, a update_session_key()
-method to the BetFair::Request method.
+This package will cache the session in ./log/session or other place defined by
+the config file in order for the session to be shared across multiple scripts
+and calls happening simultaneously. This cache also allows your session to be 
+maintained over a log period of time without needing to login all the time.
 
-Also need to investigate the 'keepalive' method. Dunno what this is for.
+If you use Betfair::submit_request then your session will be maintained and 
+updated as required by internal calls back to this module. Otherwise you will 
+need to make sure you keep your session updated as mandated by the Betfair API.
 
 =head1 DEPENDENCIES
 
@@ -51,30 +53,27 @@ my $VERSION = '';
 my $conf = new BetFair::Config;
 
 
-sub new
-{
-        my $class = $_[0];
-	TRACE("$PACKAGE : Creating new Session", 1);
-        my $objref = {
-		        key => _get_session( $_[1] ),
-                };
-        bless $objref, $class;
-	TRACE("$PACKAGE : Session Key is set to '$objref->{key}', something has gone wrong", 1) if $objref->{key} eq 0;
-	die() if $objref->{key} eq 0;
-        return $objref;
+sub new {
+    my $class = $_[0];
+    TRACE("$PACKAGE : Creating new Session", 1);
+    my $objref = {  key => _get_session( $_[1] )  };
+    bless $objref, $class;
+    TRACE("$PACKAGE : Session Key is set to '$objref->{key}', something has gone wrong", 1) if $objref->{key} eq 0;
+    die() if $objref->{key} eq 0;
+    return $objref;
 }
 
 sub _get_session
 {
  
+ # look for a cached session token
+ my $cache = get_cached_session();
+ return $cache if $cache;
+
  # populate login template 
  my $params = shift;
  my $t = new BetFair::Template;
  my $message = $t->populate( 'login', $params );
-
- # look for a cached session token
- my $cache = get_cached_session();
- return $cache if $cache;
 
  # make the login request
  my $r = new BetFair::Request;
@@ -82,7 +81,6 @@ sub _get_session
  $r->request();
 
  # pluck session token from response
-
  my $x = new BetFair::Parser( { 'message' => $r->{response} } );
  my $session = $x->get_sessionToken();
  
