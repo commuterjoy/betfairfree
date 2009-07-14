@@ -78,6 +78,8 @@ sub submit_request
 
  my $x = new BetFair::Parser( { 'message' => $r->{response} } );
  $self->{sessionToken} =  $x->get_sessionToken();
+ BetFair::Session::write_cached_session( $self->{sessionToken} );
+
  $self->{response} = $r->{response};
  
  $self->{error} = ($x->get_responseError eq 'OK') ? '' : $x->get_responseError;

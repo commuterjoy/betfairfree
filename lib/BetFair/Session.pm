@@ -10,7 +10,7 @@ This is a factory package to return a valid Betfair session token.
 
 Betfair API mandates that every request to it's API requires a valid
 session key. To obtain a session key from the API you need a Betfair account, 
-ie. you essentially need to login via you client application.
+ie. you essentially need to login via your client application.
 
 So this package encapsulates this functionality and stores a key for any 
 subsequent requests to other API methods.
@@ -112,9 +112,8 @@ sub get_cached_session
       close SESSION;
       
       # get current time. if less than a 20 minute difference between now and the session assume we have a valid session key
-      my $now = _time();
-      my $gap = $now - $timestamp;
-      TRACE("$PACKAGE->get_sessionToken : difference between now ($now) and session cache time ($timestamp) is $gap seconds", 1);   
+      my $gap = time - $timestamp;
+      TRACE("$PACKAGE->get_sessionToken : difference between now and session cache time ($timestamp) is $gap seconds", 1);   
       TRACE("$PACKAGE->get_sessionToken : returning the cached key",1) if ( $gap < 1170 );
       return $key if ( $gap < 1170 ); # 19.5 minutes in seconds
       
@@ -135,23 +134,12 @@ sub write_cached_session
   if ( $conf->{session} )
   {
    open(SESSION, ">".$conf->{session}) || TRACE($!);
-   print SESSION  _time() . ':' . $session;
+   print SESSION  time . ':' . $session;
    close SESSION;
    return 1;
   }
    
  }
-
-# returns current time formatted as YYYYMMDDHHMMSS
-sub _time
- {
-  my $t = shift;
-  my $now = $t || time(); 
-  my $tz = strftime("%z", localtime($now));
-  $tz =~ s/(\d{2})(\d{2})/$1:$2/;
-  strftime("%Y%m%d%H%M%S", localtime($now));
- }
-
 
 1;
 
