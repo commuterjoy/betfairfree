@@ -38,7 +38,7 @@ directory so it picks up the Betfair perl modules.
 If this doesn't work or returns an error then you should turn on the debug mode 
 which you'll find at the top of conf/default.yml and re-run the script
 
-This script log a market's best prices, every 10 seconds
+This script logs a market's best prices, every 10 seconds
 
  perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m
  marketid
@@ -61,8 +61,8 @@ Example Code
 # lets setup a new BetFair object - 82 is the free api product code
 
 my $b = new BetFair({	username => 'foo',  
-					password => 'bar',
-					productId => 82 } );
+			password => 'bar',
+			productId => 82 } );
 
 # pull out the details for the market we want - (submit_request returns 0 if it 
 # got an error)

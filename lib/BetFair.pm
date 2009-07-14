@@ -24,6 +24,7 @@ use BetFair::Session;
 use BetFair::Template;
 use BetFair::Throttle;
 use BetFair::Trace qw( TRACE );
+use XML::Simple;
 
 my $PACKAGE = 'BetFair';
 my $VERSION = '0.99';
@@ -32,66 +33,80 @@ my $DEBUG = 0;
 
 sub new
 {
-	my ( $class, $params ) = @_;
-	my $objref = {
-		'_options' => $params,
-		'loggedIn' => 0,
-		'response' => '',
-		'error' => ''
-		};
+    my ( $class, $params ) = @_;
+    my $objref = {
+        '_options' => $params,
+        'loggedIn' => 0,
+        'response' => '',
+        'request' =>  new BetFair::Request,
+        'error' => ''
+        };
 
-	if ($objref->{_options}->{xmlsimple}) {
-		use XML::Simple;
-		$objref->{xmlsimple} = XML::Simple->new( NoAttr => 1 );
-		delete $objref->{_options}->{xmlsimple};
-	}	
+    if ($objref->{_options}->{xmlsimple}) {
+        $objref->{xmlsimple} = XML::Simple->new( NoAttr => 1 );
+        delete $objref->{_options}->{xmlsimple};
+    }    
 
-	bless $objref, $class;
-	return $objref;
+    bless $objref, $class;
+    return $objref;
 }
 
 sub login
- {
-  TRACE("* $PACKAGE->login : attempting to log in", 1);
-  my ( $self ) = @_;
-  my $s = new BetFair::Session( $self->{'_options'} );
-  $self->{sessionToken} = $s->{key};
-  $self->{loggedIn} = 1;
-  $self->{_options}->{password} = 'HIDDEN_POST_LOGIN';
-  return 1;
- }
+    {
+     TRACE("* $PACKAGE->login : attempting to log in", 1);
+     my ( $self ) = @_;
+     my $s = new BetFair::Session( $self->{'_options'} );
+     $self->{sessionToken} = $s->{key};
+     $self->{loggedIn} = 1;
+     $self->{_options}->{password} = 'HIDDEN_POST_LOGIN';
+     return 1;
+    }
+
+=item submit_request
+
+This method does all the work of getting the session, populating the template,
+submitting the request and parsing the result, returning an XPath or XML::Simple
+object as _data
+
+This can either be called directly or can be called as part of a wrapper method
+
+=cut
 
 sub submit_request
 {
- my ( $self, $type, $params ) = @_;
+    my ( $self, $type, $params ) = @_;
 
- $self->login unless ( $self->{loggedIn} );
+    $self->login unless ( $self->{loggedIn} );
 
- my $t = new BetFair::Template;
- $params->{session} = $self->{sessionToken};
+    my $t = new BetFair::Template;
+    $params->{session} = $self->{sessionToken};
 
- my $message = $t->populate( $type, $params );
+    my $message = $t->populate( $type, $params );
 
- my $r = new BetFair::Request;
- $r->message( $message, $type );
- $r->request();
+    $self->{request}->message( $message, $type );
+    $self->{request}->request();
 
- my $x = new BetFair::Parser( { 'message' => $r->{response} } );
- $self->{sessionToken} =  $x->get_sessionToken();
- BetFair::Session::write_cached_session( $self->{sessionToken} );
+    $self->{response} = $self->{request}->{response};
+    my $x = new BetFair::Parser( { 'message' => $self->{response} } );
 
- $self->{response} = $r->{response};
- 
- $self->{error} = ($x->get_responseError eq 'OK') ? '' : $x->get_responseError;
+    if ($self->{sessionToken} ne $x->get_sessionToken()) {
+        $self->{sessionToken} = $x->get_sessionToken();
+        BetFair::Session::write_cached_session( $self->{sessionToken} );
+    }
+    
+    if ($self->{xmlsimple}) {
+        my $xml = $self->{response};
+        $xml =~ s/<n\d?:/</g;
+        $xml =~ s/<\/n\d?:/<\//g;
+        $self->{_data} = $self->{xmlsimple}->XMLin($xml);
+    }
 
- if ($self->{xmlsimple}) {
-	my $xml = $self->{response};
-	$xml =~ s/<n\d?:/</g;
-	$xml =~ s/<\/n\d?:/<\//g;
-	$self->{_data} = $self->{xmlsimple}->XMLin($xml);
-}
+    unless ( $self->{error} ) {
+        # Error might already be set by throttle or request, don't blow it away 
+        $self->{error} = ($x->get_responseError eq 'OK') ? '' : $x->get_responseError;
+    }
 
- return ($self->{error}) ? '0' : '1';
+    return ($self->{error}) ? '0' : '1';
 }
 
 sub getAccountFunds
