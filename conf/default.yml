@@ -14,7 +14,8 @@ soap_exchange_uri : https://api.betfair.com/exchange/v5/BFExchangeService
 # soap request templates (HTML::Template)
 soap_response_templates : tmpl/soap-responses/
 
-# seconds to wait in between reseting throttle requests
+# seconds to wait in between resetting throttle requests
+# If you dont want throttling then set this to 1
 cycle : 60
 
 # directory to write log files to. leave blank if you do not want various processes to write logs.
