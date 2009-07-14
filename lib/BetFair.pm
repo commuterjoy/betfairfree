@@ -346,6 +346,34 @@ sub getBestPricesToBack
 
 }
 
+
+sub getMarketPrices {
+    my ($self, $marketId ) = @_;
+
+    TRACE("* $PACKAGE->getMarket : obtaining compressed market prices data for '$marketId'", 1);
+    $self->submit_request('getMarketPrices',{ marketId => $marketId } );
+ 
+    if ($self->{xmlsimple}) {
+        $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getMarketPricesResponse}->{Result}->{marketPrices};
+    } else {
+        # TODO : need to call out to xpath processor here.
+    }
+}
+
+
+sub getMarketPricesCompressed {
+    my ($self, $marketId ) = @_;
+
+    TRACE("* $PACKAGE->getMarket : obtaining compressed market prices data for '$marketId'", 1);
+    $self->submit_request('getMarketPricesCompressed',{ marketId => $marketId } );
+ 
+    if ($self->{xmlsimple}) {
+        $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getMarketPricesCompressedResponse}->{Result}->{marketPrices};
+    } else {
+        # TODO : need to call out to xpath processor here.
+    }
+}
+
 sub getAccountStatement
 {
 
