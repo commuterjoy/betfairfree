@@ -1,2 +1,5 @@
+There are some basic docs here, don't forget the README in the root directory and also we now have a [http://groups.google.com/group/betfairfree discussion group] for you to ask any questions / issues you have.
 
-
+  * [ExampleApplication] Example application code using betfairfree
+  * [Dependencies] Things you need to run the code
+  * [Execution] Notes on how to work with the code. 
