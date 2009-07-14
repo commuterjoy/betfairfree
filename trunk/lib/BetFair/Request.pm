@@ -105,12 +105,13 @@ sub request
   if ( $@ )
   {
    TRACE("$PACKAGE : Response unparsable, ie. not XML. Is the BetFair service ok? http://service.betfair.info/");
-   die( $self->{message} . "\n\n" . $self->{response} );
+   $self->{error} = "$PACKAGE : Response unparsable, ie. not XML. Is the BetFair service ok? http://service.betfair.info/\n" . $self->{message} . "\n\n" . $self->{response};
   }	
  }
  else
  {
   $self->{response} = '';
+  $self->{error} = "$PACKAGE : Slow down. Throttle reports limit exceeded for " . $self->{type} . " - request not made.";
   TRACE("$PACKAGE : Slow down. Throttle reports false, request not made.", 1); 
  }
 

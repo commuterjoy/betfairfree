@@ -58,7 +58,7 @@ my %throttle =
 	 'getMarketPrices' => { 'limit' => 10, 'call' => 0, 'count' =>  0 },
 	 'getMarketPricesCompressed' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
 	 'getAccountStatement' => { 'limit' => 2, 'call' => 0, 'count' =>  0 },
-         'placeBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
+	 'placeBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
 	);
 
 
@@ -118,7 +118,7 @@ sub ok_to_call
 	 return 0;
 	}
 
-	# otheriwse ok  
+	# otherwise ok  
 	TRACE("$PACKAGE->ok_to_call : Throttle limit ok on '$method'", 1);
 	return 1;
 }
