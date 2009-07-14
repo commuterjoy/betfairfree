@@ -7,7 +7,19 @@ useful stuff, including documentation on all the different API's and forums.
 
 http://bdp.betfair.com/
 
-This code currently supports version 5 of the Betfair Exchange API
+This code currently supports version 5 of the Betfair Exchange API and contains
+everything you need for a good start. From getting your account balance through
+finding your market and getting the best prices to placing a bet.
+
+Support for this code
+=====================
+
+This code is not supported and comes with no warranty. However there is a 
+discussion group at http://groups.google.com/group/betfairfree for suggestions 
+and questions about the code.
+
+Code Layout 
+===========
 
 /lib contains the Betfair modules and xpath modules.
 
@@ -28,7 +40,7 @@ your balance.
 /docs contains the example responses from Betfair.
 
 Getting Started
-===========
+================
 
 The quickest way to check everything is working is to run the getAccountFunds.pl 
 script that you'll find in _t . You'll need to run it from the main betfair
