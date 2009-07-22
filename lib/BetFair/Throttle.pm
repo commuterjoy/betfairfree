@@ -56,33 +56,34 @@ my $cycle = $conf->{cycle} ? $conf->{cycle} : '60';
 # template data structure for holding information about the number of API requests
 # allowed every minute.
 my %throttle = 
-	(
-	 'login' => { 'limit' => 24, 'call' => 0, 'count' => 0 },
-	 'getAccountFunds' => { 'limit' => 1, 'call' => 0, 'count' =>  0 },		
-	 'getEvents' => { 'limit' => 100, 'call' => 0, 'count' =>  0 },
-	 'getMarket' => { 'limit' => 5, 'call' => 0, 'count' =>  0 },
-	 'getMarketPrices' => { 'limit' => 10, 'call' => 0, 'count' =>  0 },
-	 'getMarketPricesCompressed' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
-	 'getAccountStatement' => { 'limit' => 2, 'call' => 0, 'count' =>  0 },
-	 'placeBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
-	);
+    (
+     'login' => { 'limit' => 24, 'call' => 0, 'count' => 0 },
+     'getAccountFunds' => { 'limit' => 1, 'call' => 0, 'count' =>  0 },        
+     'getEvents' => { 'limit' => 100, 'call' => 0, 'count' =>  0 },
+     'getMarket' => { 'limit' => 5, 'call' => 0, 'count' =>  0 },
+     'getMarketPrices' => { 'limit' => 10, 'call' => 0, 'count' =>  0 },
+     'getMarketPricesCompressed' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
+     'getAccountStatement' => { 'limit' => 2, 'call' => 0, 'count' =>  0 },
+     'placeBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
+    );
 
 
 sub new {
     my $class = shift;
     my $objref = \%throttle;
     bless $objref, $class;
-	TRACE("$PACKAGE : created a new instance of throttle",1);
+    TRACE("$PACKAGE : created a new instance of throttle",1);
     return $objref;
 }
 
 # Increment call to $method by 1
 sub touch {
-	my ( $self, $method ) = @_;
+    my ( $self, $method ) = @_;
+    TRACE("$PACKAGE : incremented $method counts by 1 to " . $self->{$method}->{count} ,1);
     if ( ! $self->{$method}->{call} ) {
        $self->{$method}->{call} = int((time-1)/60); 
     }
-    $self->{$method}{count}++;
+    $self->{$method}->{count}++;
     return 1;
 }
 
@@ -94,15 +95,14 @@ whether we can be called again.
 
 =cut
 
-sub ok_to_call
-{
-	my ( $self, $method ) = @_;
+sub ok_to_call {
+    my ( $self, $method ) = @_;
 
     # Fast as you like, user has turned off throttling
     return 1 if ($cycle == 1);
        
     # Would calling $method again push us over what we think the method is ?
-	if ( ($self->{$method}->{count}+1) > $self->{$method}->{limit} ) {
+    if ( ($self->{$method}->{count}+1) > $self->{$method}->{limit} ) {
         #full minutes since epoch, 1 second slow for safety
         my $thisminute = int((time-1)/60); 
         if ($self->{$method}->{call} < $thisminute ) {
@@ -110,13 +110,13 @@ sub ok_to_call
             $self->{$method}->{count} = 0;
         } else {
             TRACE("$PACKAGE->ok_to_call : Throttle limit exceeded on '$method'", 1);
-	        return 0;
+            return 0;
         }
-	}
+    }
 
-	# otherwise ok  
-	TRACE("$PACKAGE->ok_to_call : Throttle limit ok on '$method' (".$self->{$method}->{count}." / ".$self->{$method}->{limit} .")", 1);
-	return 1;
+    # otherwise ok  
+    TRACE("$PACKAGE->ok_to_call : Throttle limit ok on '$method' (".$self->{$method}->{count}." / ".$self->{$method}->{limit} .")", 1);
+    return 1;
 }
 
 1;
