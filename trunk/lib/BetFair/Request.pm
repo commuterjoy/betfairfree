@@ -45,6 +45,7 @@ sub new
         my $objref = {
 		response => '',
 		message => '',
+        error => '',
 		logfile => $logfile,
 		type => '',
 	        throttle => new BetFair::Throttle
@@ -75,6 +76,9 @@ sub request
  $request->content($self->{message});
  $request->content_type("text/xml; charset=utf-8");
   
+ # reset the error string;
+ $self->{error} = '';
+
  if ( $self->{throttle}->ok_to_call( $self->{type} ) )
  {
   TRACE("$PACKAGE : Throttle reports ok to call", 1);
