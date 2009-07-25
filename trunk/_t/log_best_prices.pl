@@ -9,14 +9,15 @@ The file is written in YAML format
 =head1 USAGE
 
  # log a market's, every 10 seconds
- perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m marketid
+ perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m marketid -iso
 
 =head1 VERSION
 
-0.3
+0.4
 
 =head1 Notes
-
+ 
+ * v0.4 - optionally use ISO-8601 format as date stamp
  * v0.3 - logs now use a formatted date as the YAML key for each entry for ease of sorting
  * v0.2 - logs prices and amount available data for all runners in the market
         - includes a summary of the market at head of log file
@@ -35,7 +36,7 @@ use POSIX qw(strftime);
 local $YAML::UseHeader = 0;
 
 my %opts = ();
-GetOptions (\%opts, 'p|pass=s', 'u|user=s', 'm|market=i', 'l|log=s', 'i|interval=i', 'verbose' );
+GetOptions (\%opts, 'p|pass=s', 'u|user=s', 'm|market=i', 'l|log=s', 'i|interval=i', 'iso', 'verbose' );
 
 die "you must supply a --user argument" unless $opts{user} || $opts{u};
 die "you must supply a --pass argument" unless $opts{pass} || $opts{p};
@@ -44,6 +45,7 @@ die "you must supply a --market argument" unless $opts{market} || $opts{m};
 my $m = $opts{m} . $opts{market};
 my $interval = ( $opts{i} || $opts{interval} ) ? $opts{i} . $opts{interval} : 5;
 my $log = ( $opts{l} || $opts{log} ) ? $opts{l} . $opts{log} : $m.'.txt';
+my $iso = ( $opts{iso} ) ? $opts{iso} : 0;
 
 my $b = new BetFair( 
 	{ 	
@@ -104,12 +106,16 @@ sub _log
     close I;
  }
 
-# returns current time formatted as YYYYMMDDHHMMSS
+# returns current time formatted as YYYYMMDDHHMMSS or ISO-8601 if the -iso flag is supplied
 sub _time
  {
-  my $now = time(); 
+  my $now = time();
   my $tz = strftime("%z", localtime($now));
   $tz =~ s/(\d{2})(\d{2})/$1:$2/;
-  strftime("%Y%m%d%H%M%S", localtime($now));
+  if ( $iso ){
+	strftime("%Y-%m-%dT%H:%M:%S", localtime($now));
+  } else {
+  	strftime("%Y%m%d%H%M%S", localtime($now));
+	}
  }
 
