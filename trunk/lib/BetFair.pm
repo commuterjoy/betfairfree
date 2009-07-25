@@ -36,7 +36,7 @@ use XML::Simple;
 my $PACKAGE = 'BetFair';
 my $VERSION = '0.70';
 
-my $DEBUG = 0;
+my $DEBUG = 1;
 
 sub new
 {
@@ -357,10 +357,7 @@ sub getBestPricesToBack {
 
     TRACE("$PACKAGE->getBestPricesToBack : obtaining market price data for '$marketId'", 1);
 
-    $self->submit_request('getMarket',{ marketId => $marketId } );
-
-    print "getMarket response" . $self->{response} if $DEBUG;
-    print Dumper $self if $DEBUG;
+    $self->submit_request('getMarketPrices',{ marketId => $marketId } );
 
     #clean 
     $self->{'_data'}->{'getMarketPrices'}->{$marketId}->{'getBestPricesToBack'} = {};
@@ -368,8 +365,8 @@ sub getBestPricesToBack {
     my $x = new BetFair::Parser( { 'message' => $self->{response} } ); 
 
     my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getBestPricesToBack}->{runnerPrices} } );
-    
-    # temp array to store selection's 
+
+    # scrub data array so we don't continually append market prices
     my @data;
 
     # for each selection in the market extract current price, money available, and selection id

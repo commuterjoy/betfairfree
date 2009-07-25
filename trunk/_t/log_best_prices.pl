@@ -83,7 +83,7 @@ while ( 1 )
  
  # fetch the best prices from Betfair
  $b->getBestPricesToBack( $m );
-  
+
  # convert the extracted data to a YAML data structure via Dump 
  my %out;
  $out{$now} = $b->{_data}->{getMarketPrices}->{$m}->{getBestPricesToBack};
