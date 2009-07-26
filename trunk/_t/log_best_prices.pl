@@ -17,6 +17,7 @@ The file is written in YAML format
 
 =head1 Notes
  
+ * v0.5 - added capping so high odds get rounded to the given cap value 
  * v0.4 - optionally use ISO-8601 format as date stamp
  * v0.3 - logs now use a formatted date as the YAML key for each entry for ease of sorting
  * v0.2 - logs prices and amount available data for all runners in the market
@@ -36,7 +37,7 @@ use POSIX qw(strftime);
 local $YAML::UseHeader = 0;
 
 my %opts = ();
-GetOptions (\%opts, 'p|pass=s', 'u|user=s', 'm|market=i', 'l|log=s', 'i|interval=i', 'iso', 'verbose' );
+GetOptions (\%opts, 'p|pass=s', 'u|user=s', 'm|market=i', 'l|log=s', 'i|interval=i', 'iso', 'cap=i', 'verbose' );
 
 die "you must supply a --user argument" unless $opts{user} || $opts{u};
 die "you must supply a --pass argument" unless $opts{pass} || $opts{p};
@@ -46,6 +47,7 @@ my $m = $opts{m} . $opts{market};
 my $interval = ( $opts{i} || $opts{interval} ) ? $opts{i} . $opts{interval} : 5;
 my $log = ( $opts{l} || $opts{log} ) ? $opts{l} . $opts{log} : $m.'.txt';
 my $iso = ( $opts{iso} ) ? $opts{iso} : 0;
+my $cap = ( $opts{cap} ) ? $opts{cap} : 0;
 
 my $b = new BetFair( 
 	{ 	
@@ -67,6 +69,7 @@ unless ( -f $log )
     # convert the extracted data to a YAML data structure via Dump
     my %out;
     $out{market} = $b->{'_data'}->{'getMarket'}->{$m}->{runners};
+
     my $line = Dump \%out;
 
     # write to file
@@ -83,6 +86,15 @@ while ( 1 )
  
  # fetch the best prices from Betfair
  $b->getBestPricesToBack( $m );
+
+    # cap any high odds at a given value $cap - ie. so odds 1/230 & 1/1000 become 1/20, if $cap is 20
+    if ( $cap ){
+	$i = 0;
+	foreach my $s (@{$b->{'_data'}->{'getMarketPrices'}->{$m}->{getBestPricesToBack}}){
+	 $b->{_data}->{getMarketPrices}->{$m}->{getBestPricesToBack}[$i]->{price} = ($s->{price} > $cap) ? $cap : $s->{price};
+	 $i++;
+	}
+    }
 
  # convert the extracted data to a YAML data structure via Dump 
  my %out;
