@@ -15,17 +15,14 @@ my %opts = ();
 GetOptions (\%opts, 'p|pass=s', 'u|user=s' );
 
 die "you must supply a --user argument" unless $opts{user} || $opts{u};
-die "you must supply a --passwd argument" unless $opts{passwd} || $opts{p};
+die "you must supply a --pass argument" unless $opts{pass} || $opts{p};
 
-my $b = new BetFair( 
-	{ 	
-	   'username' => $opts{user} || $opts{u}, 
+my $b = new BetFair(
+	{
+	   'username' => $opts{user} || $opts{u},
  	   'password' => $opts{pass} || $opts{p},
 	   'productId' => 82
 	});
-
-
-$b->login;
 
 print Dumper $b;
 

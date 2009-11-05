@@ -37,8 +37,6 @@ $DAYS = $opts{d};
 my $tz = DateTime::TimeZone->new( name => 'Europe/London' );
 my $now = DateTime->now();
 
-$b->login;
-
 if ( $TYPE )
  {
  # last twenty

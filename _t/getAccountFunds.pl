@@ -28,13 +28,20 @@ my $params =
  };
 
 # Setup the Betfair object
-my $b = BetFair->new( $params ); 
+my $b = BetFair->new( $params );
 
 # make request for your account information
-if ($b->submit_request( 'getAccountFunds')) {
-	# render response using the Parser & Xpath
-	my $p = new BetFair::Parser( { 'message' => $b->{response} }  ); 
-	my $balance = $p->get_nodeSet( { 'xpath' => '/soap:Envelope/soap:Body/n:getAccountFundsResponse/n:Result/availBalance' } );
+if (my $balance = $b->getAccountFunds) {
+	print $balance;
+} else {
+	# we got an error from betfair
+	print $b->{error};
+}
+
+
+sleep 10;
+
+if (my $balance = $b->getAccountFunds) {
 	print $balance;
 } else {
 	# we got an error from betfair

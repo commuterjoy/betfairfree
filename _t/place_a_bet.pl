@@ -3,8 +3,8 @@
 This script has the ability to make monetary transactions using your Betfair wallet.
 
 Misunderstanding this script may cost you a significant amount of money.
- 
-Do not use it if you do not understand what it does. The author of this script accepts no liabilities for misuse. 
+
+Do not use it if you do not understand what it does. The author of this script accepts no liabilities for misuse.
 
 =head1 ABOUT
 
@@ -19,9 +19,9 @@ This is a command line utlity to place a single bet.
 
 =head1 USAGE
 
- # bet £3.20 at odds of 2.43 as a backer on selection 123512 from market 21031232 
+ # bet £3.20 at odds of 2.43 as a backer on selection 123512 from market 21031232
  perl -I./lib _t/place_a_bet.pl -u [user] -p [pass] -m 21031232 -s 123512 -b 3.20 -o 2.43 -back
- 
+
 =cut
 
 use BetFair;
@@ -49,21 +49,18 @@ my $type = ( $opts{lay} ) ? 'L' : 'B';
 
 my ( $runner, $amount, $best_price );
 
-# TODO datatypes check inputs carefully 
+# TODO datatypes check inputs carefully
 
-my $b = new BetFair( 
-	{ 	
-	   'username' => $opts{user} || $opts{u}, 
+my $b = new BetFair(
+	{
+	   'username' => $opts{user} || $opts{u},
  	   'password' => $opts{pass} || $opts{p},
 	   'productId' => 82
 	});
 
-# login
-$b->login;
-
 # get the runners
 $b->getMarket( $m );
-    
+
 # find the plain English name associated with the selection
 foreach ( @{$b->{'_data'}->{'getMarket'}->{$m}->{runners}} )
  {
@@ -86,7 +83,7 @@ foreach ( @{$b->{_data}->{getMarketPrices}->{$m}->{getBestPricesToBack}} )
 die "Couldn't find runner \#$s in market \#$m" unless $runner;
 die "Couldn't find best price or amount for \#$s in market \#$m" unless $best_price || $amount;
 
-print "you have 10 seconds to cancel : Selection : $runner (\#$s), UKP$stake \@ $odds" . $/; 
+print "you have 10 seconds to cancel : Selection : $runner (\#$s), UKP$stake \@ $odds" . $/;
 
 # give time for user to cancel, unless they have explicitly asked for no safety catch
 sleep( 10 ) unless $opts{'noprompt'};
