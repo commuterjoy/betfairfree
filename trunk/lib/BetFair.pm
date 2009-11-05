@@ -30,6 +30,7 @@ use BetFair::Request;
 use BetFair::Session;
 use BetFair::Template;
 use BetFair::Throttle;
+use BetFair::DataProc;
 use BetFair::Trace qw( TRACE );
 use XML::Simple;
 
@@ -111,6 +112,7 @@ sub submit_request
             $xml =~ s/<n\d?:/</g;
             $xml =~ s/<\/n\d?:/<\//g;
             $self->{_data} = $self->{xmlsimple}->XMLin($xml);
+            $self->{_orig} = $self->{_data};
         }
 
         $self->{error} = ($x->get_responseError eq 'OK') ? '' : $x->get_responseError;
@@ -328,7 +330,7 @@ sub getAccountStatementXPath {
 sub getMarketPrices {
     my ($self, $marketId ) = @_;
 
-    TRACE("* $PACKAGE->getMarket : obtaining compressed market prices data for '$marketId'", 1);
+    TRACE("* $PACKAGE->getMarketPrices : obtaining market prices data for '$marketId'", 1);
     $self->submit_request('getMarketPrices',{ marketId => $marketId } );
  
     if ($self->{xmlsimple}) {
@@ -341,11 +343,12 @@ sub getMarketPrices {
 sub getMarketPricesCompressed {
     my ($self, $marketId ) = @_;
 
-    TRACE("* $PACKAGE->getMarket : obtaining compressed market prices data for '$marketId'", 1);
+    TRACE("* $PACKAGE->getMarketPricesCompressed : obtaining compressed market prices data for '$marketId'", 1);
     $self->submit_request('getMarketPricesCompressed',{ marketId => $marketId } );
  
     if ($self->{xmlsimple}) {
         $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getMarketPricesCompressedResponse}->{Result}->{marketPrices};
+        BetFair::DataProc::proc_getMarketPricesCompressedXMLSimple($self);        
     } else {
         # TODO : need to call out to xpath processor here.
     }
