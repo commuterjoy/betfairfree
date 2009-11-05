@@ -46,6 +46,7 @@ sub new
         '_options' => $params,
         'loggedIn' => 0,
         'response' => '',
+        'session' => new BetFair::Session( $params ),
         'request' =>  new BetFair::Request,
         'error' => ''
         };
@@ -56,19 +57,12 @@ sub new
     }
 
     bless $objref, $class;
+    $objref->{_options}->{password} = 'HIDDEN_POST_LOGIN';
+
     return $objref;
+
 }
 
-sub login
-    {
-     TRACE("* $PACKAGE->login : attempting to log in", 1);
-     my ( $self ) = @_;
-     my $s = new BetFair::Session( $self->{'_options'} );
-     $self->{sessionToken} = $s->{key};
-     $self->{loggedIn} = 1;
-     $self->{_options}->{password} = 'HIDDEN_POST_LOGIN';
-     return 1;
-    }
 
 =item submit_request
 
@@ -85,11 +79,9 @@ sub submit_request
 {
     my ( $self, $type, $params ) = @_;
 
-    $self->login unless ( $self->{loggedIn} );
+    $params->{session} = $self->{session}->get_session;
 
     my $t = new BetFair::Template;
-    $params->{session} = $self->{sessionToken};
-
     my $message = $t->populate( $type, $params );
 
     $self->{request}->message( $message, $type );
@@ -101,11 +93,7 @@ sub submit_request
         $self->{error} = $self->{request}->{error};
     } else {
         my $x = new BetFair::Parser( { 'message' => $self->{response} } );
-
-        if ($self->{sessionToken} ne $x->get_sessionToken()) {
-            $self->{sessionToken} = $x->get_sessionToken();
-            BetFair::Session::write_cached_session( $self->{sessionToken} );
-        }
+        $self->{session}->save_session($x->get_sessionToken());
 
         if ($self->{xmlsimple}) {
             my $xml = $self->{response};

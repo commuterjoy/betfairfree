@@ -1,0 +1,5 @@
+[2009-11-05]
+
+* Using BetFair->login is now deprecated. The login context has been moved to
+  be under BetFair::Session and is automatically called with Betfair->new. This 
+  ensures everything is set up under the one object for consistency. [Paul O]
