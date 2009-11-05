@@ -1,7 +1,7 @@
 
 =head1 ABOUT
 
-This will log the best back price of each selection in a given market to a file at a 
+This will log the best back price of each selection in a given market to a file at a
 given interval (eg. 2 seconds)
 
 The file is written in YAML format
@@ -16,8 +16,8 @@ The file is written in YAML format
 0.4
 
 =head1 Notes
- 
- * v0.5 - added capping so high odds get rounded to the given cap value 
+
+ * v0.5 - added capping so high odds get rounded to the given cap value
  * v0.4 - optionally use ISO-8601 format as date stamp
  * v0.3 - logs now use a formatted date as the YAML key for each entry for ease of sorting
  * v0.2 - logs prices and amount available data for all runners in the market
@@ -49,14 +49,12 @@ my $log = ( $opts{l} || $opts{log} ) ? $opts{l} . $opts{log} : $m.'.txt';
 my $iso = ( $opts{iso} ) ? $opts{iso} : 0;
 my $cap = ( $opts{cap} ) ? $opts{cap} : 0;
 
-my $b = new BetFair( 
-	{ 	
-	   'username' => $opts{user} || $opts{u}, 
+my $b = new BetFair(
+	{
+	   'username' => $opts{user} || $opts{u},
  	   'password' => $opts{pass} || $opts{p},
 	   'productId' => 82
 	});
-
-$b->login;
 
 if ( -f $log && $opts{verbose} ) { print "appending $log \n"; }
 
@@ -65,7 +63,7 @@ unless ( -f $log )
  {
     # fetch human readable market data
     $b->getMarket( $m );
-    
+
     # convert the extracted data to a YAML data structure via Dump
     my %out;
     $out{market} = $b->{'_data'}->{'getMarket'}->{$m}->{runners};
@@ -75,15 +73,15 @@ unless ( -f $log )
     # write to file
      _log( $line );
  }
- 
+
 # until the user intervention (eg. ctrl-z), append a YAML dump of the the best prices for all runners/selections
 while ( 1 )
 {
 
  # get time
- my $now = _time(); 
+ my $now = _time();
  print "$now\n" if $opts{verbose};
- 
+
  # fetch the best prices from Betfair
  $b->getBestPricesToBack( $m );
 
@@ -96,14 +94,14 @@ while ( 1 )
 	}
     }
 
- # convert the extracted data to a YAML data structure via Dump 
+ # convert the extracted data to a YAML data structure via Dump
  my %out;
  $out{$now} = $b->{_data}->{getMarketPrices}->{$m}->{getBestPricesToBack};
  my $line = Dump \%out;
 
  # log to file
  _log( $line );
- 
+
  # sleep for the given interval (in seconds)
  sleep( $interval );
 

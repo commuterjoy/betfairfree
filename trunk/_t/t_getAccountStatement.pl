@@ -27,8 +27,6 @@ my $b = new BetFair(
 my $tz = DateTime::TimeZone->new( name => 'Europe/London' );
 my $now = DateTime->now();
 
-$b->login;
-
 # last 5
 $b->getAccountStatement( 1, 5, '2006-01-01T00:00:00', $now, 'EXCHANGE');
 

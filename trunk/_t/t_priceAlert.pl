@@ -16,9 +16,9 @@ die "you must supply a --user argument" unless $opts{user} || $opts{u};
 die "you must supply a --pass argument" unless $opts{pass} || $opts{p};
 die "you must supply a --market argument" unless $opts{market} || $opts{m};
 
-my $b = new BetFair( 
-	{ 	
-	   'username' => $opts{user} || $opts{u}, 
+my $b = new BetFair(
+	{
+	   'username' => $opts{user} || $opts{u},
  	   'password' => $opts{pass} || $opts{p},
 	   'productId' => 82
 	});
@@ -27,7 +27,6 @@ my $b = new BetFair(
 #my $e = 5965719;
 
 my $m = $opts{m};
-$b->login;
 $b->getMarket( $m );
 $b->getBestPricesToBack( $m );
 

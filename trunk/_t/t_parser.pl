@@ -6,9 +6,9 @@ use Data::Dumper;
 
 usage: perl t_parser.pl
 
-This test invokes the BetFair::Parser with a fragment of XML representing the 
-SOAP response, then retrives various values from it, first by using some standard factory 
-methods (eg. get_sessionToken, get_responseError), and then by throwing 
+This test invokes the BetFair::Parser with a fragment of XML representing the
+SOAP response, then retrives various values from it, first by using some standard factory
+methods (eg. get_sessionToken, get_responseError), and then by throwing
 XPath statements at it, iterating over the results etc.
 
 =cut
@@ -27,10 +27,10 @@ print "token => $t \n";
 print "error => $e \n";
 print "token  => $a \n";
 print "header  => $b \n";
-foreach my $n ( $b->get_nodelist ) 
+foreach my $n ( $b->get_nodelist )
 	{
 	 print "nodes => \n";
 	 print "\t" . XML::XPath::XMLParser::as_string($n) . $/;
 
-	} 
+	}
 #print Dumper $p;

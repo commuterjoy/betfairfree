@@ -12,48 +12,38 @@ Therefore the prices for, say, 'Over/Under 2.5 Goals' will be the best back, lay
 available at that present time.
 
 A more traffic-efficient, compressed version of this response is available via the
-SOAP method getMarketPricesCompressed. Use the --compress option in this program to 
+SOAP method getMarketPricesCompressed. Use the --compress option in this program to
 view this response, rather than the XML based version.
 
 =cut
 
 use strict;
-use BetFair::Session;
-use BetFair::Template;
+use BetFair;
 use Data::Dumper;
 use Getopt::Long;
 
 my %opts = ();
-GetOptions (\%opts, 'passwd=s', 'user=s', 'market=i', 'compress' );
+GetOptions (\%opts, 'p|pass=s', 'u|user=s', 'm|market=i', 'compress' );
 
-die "you must supply a --user argument" unless $opts{user};
-die "you must supply a --passwd argument" unless $opts{passwd};
-die "you must supply a --market argument" unless $opts{market};
+die "you must supply a --user argument" unless $opts{user} || $opts{u};
+die "you must supply a --pass argument" unless $opts{pass} || $opts{p};
+die "you must supply a --market argument" unless $opts{market} || $opts{m};
 
-my $params =
- {
-  username => $opts{user},
-  password => $opts{passwd},
-  productId => 82
- };
-my $s = new BetFair::Session( $params );
+my $b = new BetFair(
+        {
+           'username' => $opts{user} || $opts{u},
+           'password' => $opts{pass} || $opts{p},
+           'productId' => 82
+        });
 
-# build SOAP message
-my $t = new BetFair::Template;
-my $params2 = {
-                session => $s->{key},
-		marketId => $opts{market} 
-             };
+my $market = $opts{market} || $opts{m};
 
-my $ref = 'getMarketPrices';
-$ref .= 'Compressed' if $opts{compress}; 
-my $message = $t->populate( $ref, $params2 );
+if ($opts{compress}) {
+    $b->getMarketPricesCompressed($market);
+} else {
+    $b->getMarketPrices($market);
+}
 
-# make request for market data
-my $r = new BetFair::Request;
-$r->message( $message, $t );
-$r->request();
-
-print "*** $r->{response} *** \n";
+print "*** $b->{response} *** \n";
 
 print 1;
