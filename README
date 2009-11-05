@@ -16,7 +16,7 @@ Support for this code
 
 This code is not supported and comes with no warranty. However there is a 
 discussion group at http://groups.google.com/group/betfairfree for suggestions 
-and questions about the code.
+and questions about the code. New releases will also be announced there.
 
 Code Layout 
 ===========
@@ -77,20 +77,16 @@ my $b = new BetFair({	username => 'foo',
 			password => 'bar',
 			productId => 82 } );
 
-# pull out the details for the market we want - (submit_request returns 0 if it 
-# got an error)
-$b->submit_request( 'getMarket', { marketId => $marketid } );
-
 # Several of the request types also have direct functions which parse the returned
 # XML and some present the data is slightly more useful format.
-# The above could also be done by calling
-$b->getMarket($marketid);
 
-# See XML types below for more info
+# The Betfair calls return 0 on error and you should then print $b->{error}
+die $b->{error} unless ($b->getMarket($marketid));
 
-die $b->{error} if $b->{error};
+# response is the pure xml from Betfair;
 my $returnedXML = $b->{response};
 
+# You can also get an XML::Simple or XPATH object using $b->{_data};
 
 # now parse the returned XML to get the selection id of the contender
 # we want to bet on 
