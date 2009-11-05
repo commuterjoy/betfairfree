@@ -46,4 +46,10 @@ if ($opts{compress}) {
 
 print "*** $b->{response} *** \n";
 
+# and get the best prices to back
+
+$b->getBestPricesToBack($market);
+
+print Dumper $b->{_data}->{getMarketPrices}->{$market}->{getBestPricesToBack};
+
 print 1;

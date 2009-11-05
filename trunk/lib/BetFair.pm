@@ -329,7 +329,7 @@ sub getMarketPrices {
     my ($self, $marketId ) = @_;
 
     TRACE("* $PACKAGE->getMarketPrices : obtaining market prices data for '$marketId'", 1);
-    $self->submit_request('getMarketPrices',{ marketId => $marketId } );
+    return 0 unless ($self->submit_request('getMarketPrices',{ marketId => $marketId } ));
 
     if ($self->{xmlsimple}) {
         $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getMarketPricesResponse}->{Result}->{marketPrices};
@@ -342,7 +342,7 @@ sub getMarketPricesCompressed {
     my ($self, $marketId ) = @_;
 
     TRACE("* $PACKAGE->getMarketPricesCompressed : obtaining compressed market prices data for '$marketId'", 1);
-    $self->submit_request('getMarketPricesCompressed',{ marketId => $marketId } );
+    return 0 unless ($self->submit_request('getMarketPricesCompressed',{ marketId => $marketId } ));
 
     if ($self->{xmlsimple}) {
         $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getMarketPricesCompressedResponse}->{Result}->{marketPrices};
