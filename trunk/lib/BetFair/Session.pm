@@ -26,10 +26,6 @@ If you use Betfair::submit_request then your session will be maintained and
 updated as required by internal calls back to this module. Otherwise you will
 need to make sure you keep your session updated as mandated by the Betfair API.
 
-=head1 DEPENDENCIES
-
-This package uses use LWP::UserAgent and HTTP::Request.
-
 =head1 AUTHOR
 
 M Chadburn - July 2006
@@ -53,7 +49,7 @@ my $conf = new BetFair::Config;
 sub new {
     my $class = $_[0];
     TRACE("$PACKAGE : Creating new Session", 1);
-    my $objref = {  key => '' , cachetime => '' };
+    my $objref = {  key => '' , cachetime => 61 };
     bless $objref, $class;
     $objref->{key} = $objref->_create_session( $_[1] );
     TRACE("$PACKAGE : Session Key is set to '$objref->{key}', something has gone wrong", 1) if $objref->{key} eq 0;
@@ -83,6 +79,8 @@ sub _create_session
 
  my ($self,$params) = @_;
 
+
+
  # look for a cached session token
  my $cache = $self->_get_cached_session();
  return $cache if $cache;
@@ -92,7 +90,11 @@ sub _create_session
 
  # populate login template
  my $t = new BetFair::Template;
- my $message = $t->populate( 'login', $params );
+ my $message = $t->populate( 'login', {  
+     username  => $$params{username},
+     password  => $$params{password},
+     productId => $$params{productId}
+ } );
 
  # make the login request
  my $r = new BetFair::Request;
