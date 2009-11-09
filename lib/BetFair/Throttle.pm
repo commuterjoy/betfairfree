@@ -57,14 +57,15 @@ my $cycle = $conf->{cycle} ? $conf->{cycle} : '60';
 # allowed every minute.
 my %throttle = 
     (
-     'login' => { 'limit' => 24, 'call' => 0, 'count' => 0 },
      'getAccountFunds' => { 'limit' => 1, 'call' => 0, 'count' =>  0 },        
+     'getAccountStatement' => { 'limit' => 2, 'call' => 0, 'count' =>  0 },
+     'getActiveEventTypes' => { 'limit' => 5, 'call' => 0, 'count' =>  0 },
      'getEvents' => { 'limit' => 100, 'call' => 0, 'count' =>  0 },
      'getMarket' => { 'limit' => 5, 'call' => 0, 'count' =>  0 },
      'getMarketPrices' => { 'limit' => 10, 'call' => 0, 'count' =>  0 },
      'getMarketPricesCompressed' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
-     'getAccountStatement' => { 'limit' => 2, 'call' => 0, 'count' =>  0 },
-     'placeBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
+     'login' => { 'limit' => 24, 'call' => 0, 'count' => 0 },
+     'placeBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 }
     );
 
 

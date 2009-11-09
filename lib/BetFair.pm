@@ -5,7 +5,7 @@ BetFair
 
 =head1 SYNOPSIS
 
-This contains the core login and submit_request methods and then a wrapper
+This contains the core submit_request method and then a wrapper
 calling method for each template type that the library supports. This means
 you can call getMarket($marketid) and the library will login, make the
 request and return you an XPath or XML::Simple object depending on your choice.
@@ -24,6 +24,7 @@ M Chadburn - July 2006
 package BetFair;
 
 use Data::Dumper;
+use XML::Simple;
 
 use BetFair::Parser;
 use BetFair::Request;
@@ -32,7 +33,8 @@ use BetFair::Template;
 use BetFair::Throttle;
 use BetFair::DataProc;
 use BetFair::Trace qw( TRACE );
-use XML::Simple;
+
+use strict;
 
 my $PACKAGE = 'BetFair';
 my $VERSION = '0.80';
@@ -47,7 +49,7 @@ sub new
         'loggedIn' => 0,
         'response' => '',
         'session' => new BetFair::Session( $params ),
-        'request' =>  new BetFair::Request,
+        'request' => new BetFair::Request,
         'error' => ''
         };
 
@@ -62,7 +64,6 @@ sub new
     return $objref;
 
 }
-
 
 =item submit_request
 
@@ -196,12 +197,12 @@ sub getEvents {
         }
         $self->{'_data'} = [ $self->{'_data'} ] if (ref($self->{_data}) ne 'ARRAY');
     } else {
-        $self->getEventsXPath;
+        $self->getEventsXPath($eventId);
     }
 }
 
 sub getEventsXPath {
-    my ( $self ) = shift;
+    my ( $self, $eventId ) = @_;
 
     my $x = new BetFair::Parser( { 'message' => $self->{response} } );
 
@@ -209,7 +210,7 @@ sub getEventsXPath {
 
     if ( $xx->exists( $x->{xpath}->{getEvents}->{marketItems} ))
     {
-        TRACE("* $PACKAGE->getEventsXPath : obtaining events markets for '$marketId'", 1);
+        TRACE("* $PACKAGE->getEventsXPath : obtaining events markets for '$eventId'", 1);
 
         my $n = $x->get_nodeSet( { xpath => $x->{xpath}->{getEvents}->{marketSummary} } );
         $self->{'_data'}->{'getEvents'}->{'markets'}->{$eventId} = {};
@@ -297,7 +298,7 @@ sub getAccountStatement {
     if ($self->{xmlsimple}) {
         $self->{'_data'} = $self->{'_data'}->{'soap:Body'};
     } else {
-        $self->getMarketXPath($marketId);
+        # xpath stuff goes here.
     }
 
 }
