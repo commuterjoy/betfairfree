@@ -51,10 +51,11 @@ directory so it picks up the Betfair perl modules.
 If this doesn't work or returns an error then you should turn on the debug mode 
 which you'll find at the top of conf/default.yml and re-run the script
 
-This script logs a market's best prices, every 10 seconds
+There is an example.pl file in the root which will give you a start on how the
+system works but there are more scripts in _t. For example this script logs a 
+market's best prices, every 10 seconds
 
- perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m
- marketid
+ perl -I./lib _t/log_best_prices.pl -u username -p password -interval 10 -m marketid
 
 There are several other one off scripts used to test various parts of the 
 templates and to provide useful info. 

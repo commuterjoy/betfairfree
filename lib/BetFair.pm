@@ -145,7 +145,7 @@ sub getActiveEventTypes {
     my ( $self ) = @_;
     return 0 unless ($self->submit_request('getActiveEventTypes'));
     if ($self->{xmlsimple}) {
-        $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getActiveEventTypesResponse}->{Result}->{eventTypeItems};
+        $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getActiveEventTypesResponse}->{Result}->{eventTypeItems}->{EventType};
     } else {
         $self->getActiveEventTypesXPath;
     }
@@ -232,7 +232,7 @@ sub getMarket {
     return 0 unless ($self->submit_request('getMarket',{ marketId => $marketId } ));
 
     if ($self->{xmlsimple}) {
-        $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getMarketResponse}->{Result}->{Market}->{runners};
+        $self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{getMarketResponse}->{Result}->{market};
     } else {
         $self->getMarketXPath($marketId);
     }
