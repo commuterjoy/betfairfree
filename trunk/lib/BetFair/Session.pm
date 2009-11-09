@@ -79,14 +79,13 @@ sub _create_session
 
  my ($self,$params) = @_;
 
-
-
  # look for a cached session token
  my $cache = $self->_get_cached_session();
  return $cache if $cache;
 
- # no cached session, but with a blanked password we can't re-login
- return if (! $params);
+ # no cached session, but if there are no params then we're not logging in 
+ #for the first time so the password will be blanked
+ die "No cached session and no password available" if (! $params);
 
  # populate login template
  my $t = new BetFair::Template;
@@ -147,19 +146,15 @@ sub _get_cached_session
  }
 
 
-sub _save_cached_session
- {
-  my ($self,$session) = @_;
-  if ( $conf->{session} )
-  {
-
-   open(SESSION, ">".$conf->{session}) || TRACE($!);
-   print SESSION  time . ':' . $session;
-   close SESSION;
-   $self->{cachetime} = time;
-   return 1;
-  }
-
+sub _save_cached_session {
+    my ($self,$session) = @_;
+    if (( $conf->{session} ) && ($session =~ /[A-Z|0-9]/i ))  {
+        open(SESSION, ">".$conf->{session}) || TRACE($!);
+        print SESSION  time . ':' . $session;
+        close SESSION;
+        $self->{cachetime} = time;
+    }
+    return 1;
  }
 
 1;
