@@ -37,7 +37,7 @@ use BetFair::Trace qw( TRACE );
 use strict;
 
 my $PACKAGE = 'BetFair';
-my $VERSION = '0.80';
+my $VERSION = '0.75';
 
 my $DEBUG = 1;
 
@@ -84,7 +84,7 @@ sub submit_request
 
     my $t = new BetFair::Template;
     my $message = $t->populate( $type, $params );
-
+	
     $self->{request}->message( $message, $type );
     $self->{request}->request();
     $self->{response} = $self->{request}->{response};
@@ -392,5 +392,51 @@ sub getBestPricesToBack {
       $self->{'_data'}->{'getMarketPrices'}->{$marketId}->{getBestPricesToBack} = \@data;
     }
 }
+
+sub placeBet {
+	my ($self, $marketid, $selectionid, $price, $size, $bettype) = @_;
+	$self->submit_request( 'placeBets', {
+        marketId => $marketid, selectionid => $selectionid, price => $price, size => $size, bettype => $bettype
+        });
+	if (! $self->{error}) {
+		if ($self->{xmlsimple}) {
+			$self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{'placeBetsResponse'}->{'Result'}->{'betResults'}->{'PlaceBetsResult'};
+		}
+		return $self->{'_data'}->{betId};
+	} else {
+		return 0;
+	}
+}
+
+sub updateBet {
+	my ($self, $betid, $newprice, $newsize, $oldprice, $oldsize) = @_;
+	$self->submit_request( 'updateBets', {
+        betId => $betid, newprice => $newprice, newsize => $newsize, newbetptype => 'NONE', oldbetptype => 'NONE', oldprice => $oldprice, oldsize => $oldsize
+        });
+	if (! $self->{error}) {
+		if ($self->{xmlsimple}) {
+			$self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{'updateBetsResponse'}->{'Result'}->{'betResults'}->{'UpdateBetsResult'};
+		}
+		return ($self->{'_data'}->{betId},$self->{'_data'}->{newBetId});
+	} else {
+		return 0;
+	}
+}
+
+sub cancelBet {
+	my ($self, $betid) = @_;
+	$self->submit_request( 'cancelBets', {
+        betId => $betid
+        });
+	my $code = 0;
+	if (! $self->{error}) {
+		if ($self->{xmlsimple}) {
+			$self->{'_data'} = $self->{'_data'}->{'soap:Body'}->{'cancelBetsResponse'}->{'Result'}->{'betResults'}->{'CancelBetsResult'};
+		}
+		$code = 1 if ($self->{'_data'}->{success} eq "true");
+	} 
+	return $code;
+}
+
 
 1;
