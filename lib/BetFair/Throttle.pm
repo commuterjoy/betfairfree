@@ -65,8 +65,8 @@ my %throttle =
      'getMarketPrices' => { 'limit' => 10, 'call' => 0, 'count' =>  0 },
      'getMarketPricesCompressed' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
      'login' => { 'limit' => 24, 'call' => 0, 'count' => 0 },
-     'placeBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 }
-     'cancelBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 }
+     'placeBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
+     'cancelBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 },
      'updateBets' => { 'limit' => 60, 'call' => 0, 'count' =>  0 }
 
 	);
