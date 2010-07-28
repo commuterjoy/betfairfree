@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <updateBets xmlns="http://www.betfair.com/publicapi/BFExchangeService/">
+      <request>
+        <header xmlns="">
+          <clientStamp>0</clientStamp>
+          <sessionToken><TMPL_VAR session></sessionToken>
+        </header>
+        <bets xmlns="">
+          <UpdateBets xmlns="http://www.betfair.com/publicapi/types/exchange/v3/">
+            <betId xmlns=""><TMPL_VAR betid></betId>
+	    <newBetPersistenceType xmlns=""><TMPL_VAR newbetptype></newBetPersistenceType>
+            <newPrice xmlns=""><TMPL_VAR newprice></newPrice>
+            <newSize xmlns=""><TMPL_VAR newsize></newSize>
+	    <oldBetPersistenceType xmlns=""><TMPL_VAR oldbetptype></oldBetPersistenceType>
+            <oldPrice xmlns=""><TMPL_VAR oldprice></oldPrice>
+            <oldSize xmlns=""><TMPL_VAR oldsize></oldSize>
+          </UpdateBets>
+        </bets>
+      </request>
+    </updateBets>
+  </soap:Body>
+</soap:Envelope>

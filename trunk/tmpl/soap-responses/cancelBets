@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <cancelBets xmlns="http://www.betfair.com/publicapi/BFExchangeService/">
+      <request>
+        <header xmlns="">
+          <clientStamp>0</clientStamp>
+          <sessionToken><TMPL_VAR session></sessionToken>
+        </header>
+        <bets xmlns="">
+          <CancelBets xmlns="http://www.betfair.com/publicapi/types/exchange/v3/">
+            <betId xmlns=""><TMPL_VAR betid></betId>
+	  </CancelBets>
+        </bets>
+      </request>
+    </cancelBets>
+  </soap:Body>
+</soap:Envelope>
