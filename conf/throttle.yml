@@ -1,3 +1,6 @@
+# NOTE THAT THIS CONFIG FILE IS NOT USED. 
+# Its set within lib/Betfair/Throttle.pm since they change so rarely
+
 login : 
  limit : 24
  call : 0
@@ -14,3 +17,4 @@ getMarket
  limit : 60
  call : 0
  count : 0
+

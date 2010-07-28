@@ -21,6 +21,9 @@ use BetFair::Config;
 use BetFair::Trace qw( TRACE );
 
 sub proc_getMarketPricesCompressedXMLSimple {
+    # This proc is not finished yet and so just return
+
+    return;
     my $self = shift;
     my %datahash = (
         'marketinfo' => '',
@@ -67,3 +70,4 @@ sub addatick() {
 }
 
 1;
+

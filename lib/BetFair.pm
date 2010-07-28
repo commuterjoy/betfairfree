@@ -37,7 +37,7 @@ use BetFair::Trace qw( TRACE );
 use strict;
 
 my $PACKAGE = 'BetFair';
-my $VERSION = '0.75';
+my $VERSION = '0.77';
 
 my $DEBUG = 1;
 
