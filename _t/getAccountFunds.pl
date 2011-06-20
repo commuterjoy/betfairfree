@@ -37,13 +37,3 @@ if (my $balance = $b->getAccountFunds) {
 	# we got an error from betfair
 	print $b->{error};
 }
-
-
-sleep 10;
-
-if (my $balance = $b->getAccountFunds) {
-	print $balance;
-} else {
-	# we got an error from betfair
-	print $b->{error};
-}
