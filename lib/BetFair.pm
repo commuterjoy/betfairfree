@@ -394,9 +394,10 @@ sub getBestPricesToBack {
 }
 
 sub placeBet {
-	my ($self, $marketid, $selectionid, $price, $size, $bettype) = @_;
+	my ($self, $marketid, $selectionid, $price, $size, $bettype, $betcategory ) = @_;
+	$betcategory = 'E' unless $betcategory;
 	$self->submit_request( 'placeBets', {
-        marketId => $marketid, selectionid => $selectionid, price => $price, size => $size, bettype => $bettype
+        marketId => $marketid, selectionid => $selectionid, price => $price, size => $size, bettype => $bettype, betcategory => $betcategory
         });
 	if (! $self->{error}) {
 		if ($self->{xmlsimple}) {
