@@ -14,6 +14,7 @@
             <marketId xmlns=""><TMPL_VAR marketid></marketId>
             <price xmlns=""><TMPL_VAR price></price>
             <selectionId xmlns=""><TMPL_VAR selectionid></selectionId>
+            <betCategoryType xmlns=""><TMPL_VAR betcategory></betCategoryType>
             <size xmlns=""><TMPL_VAR size></size>
           </PlaceBets>
         </bets>
